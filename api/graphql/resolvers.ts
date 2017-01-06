@@ -4,7 +4,6 @@ import {
  } from '../itunes/connectors';
 import { extractColors, formatColor } from '../utils';
 
-
 const createResolvers = {
   Query: {
     async podcasts(root, args) {

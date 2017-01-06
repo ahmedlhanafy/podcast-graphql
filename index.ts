@@ -1,7 +1,7 @@
 import * as express from 'express';
+import * as bodyParser from 'body-parser';
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
 import { makeExecutableSchema } from 'graphql-tools';
-import * as bodyParser from 'body-parser';
 import { schema, resolvers } from './api/graphql';
 
 const PORT = process.env.PORT || 8080;
