@@ -28,4 +28,3 @@ export const searchEpisodes = async ({ feedUrl, limit }: {feedUrl: string,limit?
   return podcastParsedData.episodes
     .slice(0, limit || podcastParsedData.episodes.length - 1);
 };
-

@@ -77,3 +77,14 @@ interface Episode{
     url: string
   }
 }
+
+interface ColorPalette{
+  Vibrant: ColorObject
+  DarkVibrant: ColorObject
+  Muted: ColorObject
+}
+
+interface ColorObject{
+  rgb: Array<number>
+  population: number
+}
