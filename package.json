@@ -23,6 +23,7 @@
     "express": "^4.14.0",
     "graphql": "^0.8.2",
     "graphql-tools": "^0.9.0",
+    "node-fetch": "^1.6.3",
     "node-podcast-parser": "^1.0.2",
     "node-vibrant": "^2.1.2"
   }
