@@ -8,9 +8,9 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}/build/app.js",
             "cwd": "${workspaceRoot}",
-            "outFiles": [],
+            "program": "${workspaceRoot}/index.ts",
+            "outFiles": ["${workspaceRoot}/build"],
             "sourceMaps": true
         },
         {

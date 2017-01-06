@@ -1,9 +1,9 @@
-import fetch from 'node-fetch';
+import * as fetch from 'node-fetch';
 import parsePodcastPromise from '../utils/parsePodcastPromise';
 
 const ITUNES_URL = 'https://itunes.apple.com/';
 
-export const searchPodcasts = async ({ name, limit, id }: {name?: string, limit?: number,id?: number | string}): 
+export const searchPodcasts = async ({ name, limit, id }: {name?: string, limit?: number, id?: number | string}):
   Promise<Array<SearchPodcastsResult>> => {
     let url = `${ITUNES_URL}search?entity=podcast&term=${name}&limit=${limit}`;
     if (id) {
@@ -21,7 +21,7 @@ export const searchPodcasts = async ({ name, limit, id }: {name?: string, limit?
 };
 
 
-export const searchEpisodes = async ({ feedUrl, limit }: {feedUrl: string,limit?: number}): Promise<Array<Episode>> => {
+export const searchEpisodes = async ({ feedUrl, limit }: {feedUrl: string, limit?: number}): Promise<Array<Episode>> => {
   const podcastData = await fetch(feedUrl);
   const podcastJsonData = await podcastData.text();
   const podcastParsedData = await parsePodcastPromise(podcastJsonData);
