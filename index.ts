@@ -12,7 +12,6 @@ const executableSchema = makeExecutableSchema({
   resolvers: resolvers,
 });
 
-
 app.use('/graphql', bodyParser.json(), apolloExpress({
   schema: executableSchema,
   context: {},
@@ -22,5 +21,5 @@ app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql',
 }));
 
-
+// tslint:disable-next-line:no-console
 app.listen(PORT, () => console.log('Graphql server started successfully'));
