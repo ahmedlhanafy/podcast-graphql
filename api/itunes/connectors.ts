@@ -1,19 +1,24 @@
 import * as fetch from 'node-fetch';
 import parsePodcastPromise from '../utils/parsePodcastPromise';
 
-const ITUNES_URL = 'https://itunes.apple.com/';
+const hostURI = 'https://itunes.apple.com/';
+const lookupEndpoint = 'lookup?id=$id';
+const searchEndpoint = 'search?entity=podcast&term=$name&limit=$limit';
 
 const fetchItunesApiResults = async ({ url }: { url?: string }): Promise<Array<ItunesApiResult>> => {
   return (await (await fetch(url)).json()).results;
 };
 
 export async function findOnePodcast({ id }: { id?: number | string }) {
-  const url = `${ITUNES_URL}lookup?id=${id}`;
+  const url = hostURI.concat(lookupEndpoint.replace('$id', id.toString()));
   return fetchItunesApiResults({ url });
 };
 
 export async function findAllPodcasts({ name, limit }: { name?: string, limit?: number }) {
-  const url = `${ITUNES_URL}search?entity=podcast&term=${name}&limit=${limit}`;
+  let url = hostURI.concat(searchEndpoint.replace('$name', name));
+  if (limit) {
+    url = url.replace('$limit', limit.toString());
+  }
   return fetchItunesApiResults({ url });
 };
 

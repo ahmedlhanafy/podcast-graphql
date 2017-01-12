@@ -10,13 +10,12 @@ const createResolvers = {
       } else {
         results = await findAllPodcasts(args);
       }
-      const enhancedResults = results.map(podcast => ({
+      return results.map(podcast => ({
         ...podcast,
         id: podcast.collectionId,
         name: podcast.collectionName,
         itunesUrl: podcast.collectionViewUrl,
       }));
-      return enhancedResults;
     },
   },
   Podcast: {
