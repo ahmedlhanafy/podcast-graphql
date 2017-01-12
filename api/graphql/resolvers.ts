@@ -4,7 +4,14 @@ import { extractColors, formatColor } from '../utils';
 const createResolvers = {
   Query: {
     async podcasts(root, args) {
-      return searchPodcasts(args);
+      const results = await searchPodcasts(args);
+      const enhancedResults = results.map(podcast => ({
+        ...podcast,
+        id: podcast.collectionId,
+        name: podcast.collectionName,
+        itunesUrl: podcast.collectionViewUrl,
+      }));
+      return enhancedResults;
     },
   },
   Podcast: {
