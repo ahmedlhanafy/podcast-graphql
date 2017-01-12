@@ -5,8 +5,7 @@ const ITUNES_URL = 'https://itunes.apple.com/';
 
 const fetchItunesApiResults = async ({ url }: { url?: string }):
   Promise<Array<ItunesApiResult>> => {
-  const jsonData: ItunesApiResponse = await (await fetch(url)).json();
-  return jsonData.results;
+  return (await (await fetch(url)).json()).results;
 };
 
 export async function findOnePodcast({ id }: { id?: number | string }) {
