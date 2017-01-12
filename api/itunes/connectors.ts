@@ -3,14 +3,17 @@ import parsePodcastPromise from '../utils/parsePodcastPromise';
 
 const ITUNES_URL = 'https://itunes.apple.com/';
 
-export const searchPodcasts = async ({ name, limit, id }: { name?: string, limit?: number, id?: number | string }):
+export const findOnePodcast = async ({ id }: { id?: number | string }):
   Promise<Array<ItunesApiResult>> => {
-  let url = `${ITUNES_URL}search?entity=podcast&term=${name}&limit=${limit}`;
-  if (id) {
-    url = `${ITUNES_URL}lookup?id=${id}`;
-  }
-  const data = await fetch(url);
-  const jsonData: ItunesApiResponse = await data.json();
+  const url = `${ITUNES_URL}lookup?id=${id}`;
+  const jsonData: ItunesApiResponse = await (await fetch(url)).json();
+  return jsonData.results;
+};
+
+export const findAllPodcasts = async ({ name, limit }: { name?: string, limit?: number }):
+  Promise<Array<ItunesApiResult>> => {
+  const url = `${ITUNES_URL}search?entity=podcast&term=${name}&limit=${limit}`;
+  const jsonData: ItunesApiResponse = await (await fetch(url)).json();
   return jsonData.results;
 };
 
