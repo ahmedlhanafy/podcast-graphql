@@ -1,10 +1,21 @@
-import { searchPodcasts, searchEpisodes } from '../itunes/connectors';
+import { findAllPodcasts, findOnePodcast, searchEpisodes } from '../itunes/connectors';
 import { extractColors, formatColor } from '../utils';
 
 const createResolvers = {
   Query: {
     async podcasts(root, args) {
-      return searchPodcasts(args);
+      let results;
+      if (args.id) {
+        results = await findOnePodcast(args);
+      } else {
+        results = await findAllPodcasts(args);
+      }
+      return results.map(podcast => ({
+        ...podcast,
+        id: podcast.collectionId,
+        name: podcast.collectionName,
+        itunesUrl: podcast.collectionViewUrl,
+      }));
     },
   },
   Podcast: {
