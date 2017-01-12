@@ -1,4 +1,4 @@
-interface ItunesApiResult{
+interface ItunesApiResult {
   wrapperType: string
   kind: string
   collectionId: number
@@ -8,22 +8,22 @@ interface ItunesApiResult{
   trackName: string
   collectionCensoredName: string
   trackCensoredName: string
-  collectionViewUrl:string
+  collectionViewUrl: string
   feedUrl: string
   trackViewUrl: string
   artworkUrl30: string
   artworkUrl60: string
   artworkUrl100: string
-  collectionPrice:number
-  trackPrice:number
-  trackRentalPrice:number
-  collectionHdPrice:number
-  trackHdPrice:number
-  trackHdRentalPrice:number
+  collectionPrice: number
+  trackPrice: number
+  trackRentalPrice: number
+  collectionHdPrice: number
+  trackHdPrice: number
+  trackHdRentalPrice: number
   releaseDate: string
-  collectionExplicitness:string
-  trackExplicitness:string
-  trackCount:number
+  collectionExplicitness: string
+  trackExplicitness: string
+  trackCount: number
   country: string
   currency: string
   primaryGenreName: string
@@ -33,18 +33,18 @@ interface ItunesApiResult{
   genres: Array<string>
 }
 
-interface ItunesApiResponse{
+interface ItunesApiResponse {
   resultCount: number
   results: Array<ItunesApiResult>
 }
 
-interface SearchPodcastsResult extends ItunesApiResult{
+interface SearchPodcastsResult extends ItunesApiResult {
   id: number
   name: string
   itunesUrl: string
 }
 
-interface ParsePodcastApiResponse{
+interface ParsePodcastApiResponse {
   title: string
   description: {
     short: string
@@ -63,7 +63,7 @@ interface ParsePodcastApiResponse{
   episodes: Array<Episode>
 }
 
-interface Episode{
+interface Episode {
   guid: string
   title: string
   description: string
@@ -78,13 +78,13 @@ interface Episode{
   }
 }
 
-interface ColorPalette{
+interface ColorPalette {
   Vibrant: ColorObject
   DarkVibrant: ColorObject
   Muted: ColorObject
 }
 
-interface ColorObject{
+interface ColorObject {
   rgb: Array<number>
   population: number
 }
