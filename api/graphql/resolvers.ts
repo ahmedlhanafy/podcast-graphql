@@ -1,7 +1,4 @@
-import {
-  searchPodcasts,
-  searchEpisodes,
- } from '../itunes/connectors';
+import { searchPodcasts, searchEpisodes } from '../itunes/connectors';
 import { extractColors, formatColor } from '../utils';
 
 const createResolvers = {
@@ -44,4 +41,5 @@ const createResolvers = {
     },
   },
 };
+
 export default createResolvers;
