@@ -3,8 +3,7 @@ import parsePodcastPromise from '../utils/parsePodcastPromise';
 
 const ITUNES_URL = 'https://itunes.apple.com/';
 
-const fetchItunesApiResults = async ({ url }: { url?: string }):
-  Promise<Array<ItunesApiResult>> => {
+const fetchItunesApiResults = async ({ url }: { url?: string }): Promise<Array<ItunesApiResult>> => {
   return (await (await fetch(url)).json()).results;
 };
 
