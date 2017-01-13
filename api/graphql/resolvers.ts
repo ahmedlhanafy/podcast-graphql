@@ -1,12 +1,12 @@
 import { findAllPodcasts, findOnePodcast, searchEpisodes } from '../itunes/connectors';
 import { extractColors, formatColor } from '../utils';
 
-const resolvePodcasts = async ({ id, name, limit }) => {
+const resolvePodcasts = async ({ id, name, genreId, limit }) => {
   let results;
   if (id) {
     results = await findOnePodcast({ id });
   } else {
-    results = await findAllPodcasts({ name, limit });
+    results = await findAllPodcasts({ name, genreId, limit });
   }
   return results.map(podcast => ({
     ...podcast,

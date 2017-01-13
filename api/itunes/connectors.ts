@@ -13,8 +13,13 @@ export async function findOnePodcast({ id }: { id?: number | string }) {
   return fetchItunesApiResults({ url });
 };
 
-export async function findAllPodcasts({ name, limit }: { name?: string, limit?: number }) {
-  const url = new UrlBuilder().search(name).withLimit(limit).toString();
+export async function findAllPodcasts({ name, genreId, limit }: { name?: string, genreId?: number, limit?: number }) {
+  let url;
+  if (genreId) {
+    url = new UrlBuilder().search('podcast').byGenreId(genreId).withLimit(limit).toString();
+  } else {
+    url = new UrlBuilder().search(name).withLimit(limit).toString();
+  }
   return fetchItunesApiResults({ url });
 };
 

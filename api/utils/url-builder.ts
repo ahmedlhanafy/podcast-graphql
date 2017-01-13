@@ -5,6 +5,7 @@ export default class UrlBuilder {
     private searchResource: string;
     private searchEntity: string;
     private searchTerm: string;
+    private searchGenreId: number;
     private searchLimit: number;
 
     constructor() {
@@ -25,6 +26,12 @@ export default class UrlBuilder {
         return this;
     }
 
+    // https://affiliate.itunes.apple.com/resources/documentation/genre-mapping/
+    public byGenreId(id: number) {
+        this.searchGenreId = id;
+        return this;
+    }
+
     public withLimit(limit: number) {
         this.searchLimit = limit;
         return this;
@@ -41,8 +48,11 @@ export default class UrlBuilder {
             str = str.concat(this.searchResource)
                 .concat('entity=').concat(this.searchEntity).concat('&')
                 .concat('term=').concat(this.searchTerm).concat('&');
+            if (this.searchGenreId) {
+                str = str.concat('genreId=').concat(this.searchGenreId.toString()).concat('&');
+            }
             if (this.searchLimit) {
-                str = str.concat('limit=').concat(this.searchLimit.toString());
+                str = str.concat('limit=').concat(this.searchLimit.toString()).concat('&');
             }
         }
         return str;

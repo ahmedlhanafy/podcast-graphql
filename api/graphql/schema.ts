@@ -55,7 +55,7 @@ type Enclosure {
 }
 
 type Query {
-  podcasts(name: String, limit: Int, id: ID): [Podcast]
+  podcasts(name: String, genreId: Int, limit: Int, id: ID): [Podcast]
 }
 
 schema {
