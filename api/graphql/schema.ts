@@ -3,7 +3,7 @@ type Podcast {
   artist: Artist
   artworkUrls: Artwork
   country: String!
-  episodes: [Episode]
+  episodes(limit: Int): [Episode]
   feedUrl: String!
   genreIds: [Int]!
   genres: [String]!

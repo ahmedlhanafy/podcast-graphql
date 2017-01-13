@@ -19,8 +19,8 @@ const createResolvers = {
     },
   },
   Podcast: {
-    episodes({ feedUrl }) {
-      return searchEpisodes({ feedUrl });
+    episodes({ feedUrl }, { limit }) {
+      return searchEpisodes({ feedUrl, limit });
     },
     artworkUrls({
       artworkUrl30: xsmall,
