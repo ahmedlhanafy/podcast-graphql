@@ -3,12 +3,12 @@ import { extractColors, formatColor } from '../utils';
 
 const createResolvers = {
   Query: {
-    async podcasts(root, args) {
+    async podcasts(_, { id, name, limit }) {
       let results;
-      if (args.id) {
-        results = await findOnePodcast(args);
+      if (id) {
+        results = await findOnePodcast({ id });
       } else {
-        results = await findAllPodcasts(args);
+        results = await findAllPodcasts({ name, limit });
       }
       return results.map(podcast => ({
         ...podcast,
