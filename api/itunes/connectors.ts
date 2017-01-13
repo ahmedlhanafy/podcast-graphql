@@ -6,7 +6,9 @@ const lookupEndpoint = 'lookup?id=$id';
 const searchEndpoint = 'search?entity=podcast&term=$name&limit=$limit';
 
 const fetchItunesApiResults = async ({ url }: { url?: string }): Promise<Array<ItunesApiResult>> => {
-  return (await (await fetch(url)).json()).results;
+  const data = await fetch(url);
+  const jsonData: ItunesApiResponse = await data.json();
+  return jsonData.results;
 };
 
 export async function findOnePodcast({ id }: { id?: number | string }) {
