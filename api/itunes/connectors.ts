@@ -1,30 +1,36 @@
 import * as fetch from 'node-fetch';
 import parsePodcastPromise from '../utils/parsePodcastPromise';
+import UrlBuilder from '../utils/urlBuilder';
 
-const hostURI = 'https://itunes.apple.com/';
-const lookupEndpoint = 'lookup?id=$id';
-const searchEndpoint = 'search?entity=podcast&term=$name&limit=$limit';
-
-const fetchItunesApiResults = async ({ url }: { url?: string }): Promise<Array<ItunesApiResult>> => {
+const fetchItunesApiResults = async ({ url }: { url?: string }):
+  Promise<Array<ItunesApiResult>> => {
   const data = await fetch(url);
   const jsonData: ItunesApiResponse = await data.json();
   return jsonData.results;
 };
 
-export async function findOnePodcast({ id }: { id?: number | string }) {
-  const url = hostURI.concat(lookupEndpoint.replace('$id', id.toString()));
+export const findOnePodcast = async ({ id }: { id?: string }):
+  Promise<Array<ItunesApiResult>> => {
+  const url = new UrlBuilder().lookup(id).toString();
   return fetchItunesApiResults({ url });
 };
 
-export async function findAllPodcasts({ name, limit }: { name?: string, limit?: number }) {
-  let url = hostURI.concat(searchEndpoint.replace('$name', name));
-  if (limit) {
-    url = url.replace('$limit', limit.toString());
+export const findAllPodcasts = async ({ name, genreId, limit }:
+  { name?: string, genreId?: number, limit?: number }):
+  Promise<Array<ItunesApiResult>> => {
+  let url;
+  if (genreId) {
+    url = new UrlBuilder()
+      .search('podcast').byGenreId(genreId).withLimit(limit).toString();
+  } else {
+    url = new UrlBuilder()
+      .search(name).withLimit(limit).toString();
   }
   return fetchItunesApiResults({ url });
 };
 
-export const searchEpisodes = async ({ feedUrl, limit }: { feedUrl: string, limit?: number }): Promise<Array<Episode>> => {
+export const searchEpisodes = async ({ feedUrl, limit }:
+  { feedUrl: string, limit?: number }): Promise<Array<Episode>> => {
   const podcastData = await fetch(feedUrl);
   const podcastJsonData = await podcastData.text();
   const podcastParsedData = await parsePodcastPromise(podcastJsonData);

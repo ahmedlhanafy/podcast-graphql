@@ -3,7 +3,7 @@ type Podcast {
   artist: Artist
   artworkUrls: Artwork
   country: String!
-  episodes: [Episode]
+  episodes(limit: Int): [Episode]
   feedUrl: String!
   genreIds: [Int]!
   genres: [String]!
@@ -61,9 +61,9 @@ type AuthResponse{
 }
 
 type Query {
-  podcasts(name: String, limit: Int, id: ID): [Podcast]
   login(email: String!, password: String!): AuthResponse
   signup(email: String!, password: String!): AuthResponse
+  podcasts(name: String, genreId: Int, limit: Int, id: String): [Podcast]
 }
 
 schema {

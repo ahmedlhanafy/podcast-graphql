@@ -1,16 +1,24 @@
 import { User } from '../models';
 import { generateJwtToken } from '../auth/jwtHelpers';
-import { findAllPodcasts, findOnePodcast, searchEpisodes } from '../itunes/connectors';
+import {
+  findAllPodcasts,
+  findOnePodcast,
+  searchEpisodes,
+} from '../itunes/connectors';
 import { extractColors, formatColor } from '../utils';
 
 const createResolvers = {
   Query: {
-    async podcasts(root, args, { token }: { token?: String }) {
+    async podcasts(
+      _,
+      { id, name, genreId, limit },
+      { token }: { token?: String },
+      ) {
       let results;
-      if (args.id) {
-        results = await findOnePodcast(args);
+      if (id) {
+        results = await findOnePodcast({ id });
       } else {
-        results = await findAllPodcasts(args);
+        results = await findAllPodcasts({ name, genreId, limit });
       }
       return results.map(podcast => ({
         ...podcast,
@@ -69,8 +77,8 @@ const createResolvers = {
     },
   },
   Podcast: {
-    episodes({ feedUrl }) {
-      return searchEpisodes({ feedUrl });
+    episodes({ feedUrl }, { limit }) {
+      return searchEpisodes({ feedUrl, limit });
     },
     artworkUrls({
       artworkUrl30: xsmall,
@@ -91,12 +99,16 @@ const createResolvers = {
       const colorPalette = await extractColors(artworkUrl60);
       return {
         vibrantColor: {
-          rgbColor: colorPalette.Vibrant ? formatColor(colorPalette.Vibrant.rgb) : 'rgb(75, 75, 75)',
-          population: colorPalette.Vibrant ? colorPalette.Vibrant.population : 0,
+          rgbColor: colorPalette.Vibrant ?
+            formatColor(colorPalette.Vibrant.rgb) : 'rgb(75, 75, 75)',
+          population: colorPalette.Vibrant ?
+            colorPalette.Vibrant.population : 0,
         },
         darkVibrantColor: {
-          rgbColor: colorPalette.DarkVibrant ? formatColor(colorPalette.DarkVibrant.rgb) : 'rgb(220, 156, 156)',
-          population: colorPalette.DarkVibrant ? colorPalette.DarkVibrant.population : 0,
+          rgbColor: colorPalette.DarkVibrant ?
+            formatColor(colorPalette.DarkVibrant.rgb) : 'rgb(220, 156, 156)',
+          population: colorPalette.DarkVibrant ?
+            colorPalette.DarkVibrant.population : 0,
         },
       };
     },
