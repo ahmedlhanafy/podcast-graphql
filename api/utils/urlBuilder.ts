@@ -49,10 +49,12 @@ export default class UrlBuilder {
                 .concat('entity=').concat(this.searchEntity).concat('&')
                 .concat('term=').concat(this.searchTerm).concat('&');
             if (this.searchGenreId) {
-                str = str.concat('genreId=').concat(this.searchGenreId.toString()).concat('&');
+                str = str.concat('genreId=')
+                    .concat(this.searchGenreId.toString()).concat('&');
             }
             if (this.searchLimit) {
-                str = str.concat('limit=').concat(this.searchLimit.toString()).concat('&');
+                str = str.concat('limit=')
+                    .concat(this.searchLimit.toString()).concat('&');
             }
         }
         return str;
