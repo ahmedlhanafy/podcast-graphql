@@ -1,9 +1,11 @@
+import { User } from '../models';
+import { generateJwtToken } from '../auth/jwtHelpers';
 import { findAllPodcasts, findOnePodcast, searchEpisodes } from '../itunes/connectors';
 import { extractColors, formatColor } from '../utils';
 
 const createResolvers = {
   Query: {
-    async podcasts(root, args) {
+    async podcasts(root, args, { token }: { token?: String }) {
       let results;
       if (args.id) {
         results = await findOnePodcast(args);
@@ -16,6 +18,54 @@ const createResolvers = {
         name: podcast.collectionName,
         itunesUrl: podcast.collectionViewUrl,
       }));
+    },
+    async login(root, args) {
+      const { email, password } = args;
+      try {
+        const user: any = await User.findOne({email});
+        if (user) {
+          if (user.password !== password) {
+            return {
+              success: false,
+              message: 'Authentication failed. Wrong password.',
+             };
+          } else {
+            return {
+              success: true,
+              message: 'Authentication Succeeded',
+              token: generateJwtToken(user),
+            };
+          }
+        }else {
+          return {
+            success: false,
+            message: 'Authentication failed. User not found.',
+          };
+        }
+      } catch (err) {
+        return {
+          success: false,
+          // @FIXME: we need to send proper error message in this case
+          message: err,
+        };
+      }
+    },
+    async signup(root, args) {
+      const { email, password } = args;
+      const newUser = new User({ email, password });
+      try {
+        const user = await newUser.save();
+        return {
+          success: true,
+          message: 'Authentication Succeeded',
+          token: generateJwtToken(user),
+        };
+      } catch (err) {
+        return {
+          success: false,
+          message: err,
+        };
+      }
     },
   },
   Podcast: {
