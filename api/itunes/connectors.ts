@@ -9,9 +9,9 @@ const fetchItunesApiResults = async ({ url }: { url?: string }):
   return jsonData.results;
 };
 
-export const findOnePodcast = async ({ id }: { id?: number | string }):
+export const findOnePodcast = async ({ id }: { id?: string }):
   Promise<Array<ItunesApiResult>> => {
-  const url = new UrlBuilder().lookup(id.toString()).toString();
+  const url = new UrlBuilder().lookup(id).toString();
   return fetchItunesApiResults({ url });
 };
 
