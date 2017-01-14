@@ -14,7 +14,7 @@ const createResolvers = {
       { id, name, genreId, limit },
       { token }: { token?: String },
       ) {
-      let results;
+      let results: Array<ItunesApiResult>;
       if (id) {
         results = await findOnePodcast({ id });
       } else {
