@@ -111,7 +111,7 @@ const resolvePalette = async ({ artworkUrl60 }) => {
   };
 };
 
-const createResolvers = {
+const resolversMap = {
   Query: {
     podcasts(_, args) {
       return resolvePodcasts(args);
@@ -139,4 +139,4 @@ const createResolvers = {
   },
 };
 
-export default createResolvers;
+export default resolversMap;
