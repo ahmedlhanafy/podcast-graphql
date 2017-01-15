@@ -54,8 +54,16 @@ type Enclosure {
   url: String
 }
 
+type AuthResponse {
+  success: Boolean!
+  message: String!
+  token: String
+}
+
 type Query {
-  podcasts(name: String, genreId: Int, limit: Int, id: ID): [Podcast]
+  login(email: String!, password: String!): AuthResponse
+  signup(email: String!, password: String!): AuthResponse
+  podcasts(name: String, genreId: Int, limit: Int, id: String): [Podcast]
 }
 
 schema {
