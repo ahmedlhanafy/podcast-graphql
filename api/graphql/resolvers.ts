@@ -18,7 +18,7 @@ const resolvePodcasts = async ({ id, name, genreId, limit }) => {
     ...podcast,
     id: podcast.collectionId,
     name: podcast.collectionName,
-    itunesUrl: podcast.collectionViewUrl,
+    viewUrl: podcast.collectionViewUrl,
   }));
 };
 
@@ -89,7 +89,7 @@ const resolveArtist = ({ artistId, artistName, artistViewUrl }) => {
   return {
     id: artistId,
     name: artistName,
-    itunesUrl: artistViewUrl,
+    viewUrl: artistViewUrl,
   };
 };
 

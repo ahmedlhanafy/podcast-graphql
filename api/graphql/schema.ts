@@ -8,7 +8,7 @@ type Podcast {
   genreIds: [Int]!
   genres: [String]!
   id: ID!
-  itunesUrl: String!
+  viewUrl: String!
   name: String!
   palette: Palette
   primaryGenreName: String
@@ -18,7 +18,7 @@ type Podcast {
 
 type Artist {
   name: String
-  itunesUrl: String
+  viewUrl: String
   id: ID
 }
 
