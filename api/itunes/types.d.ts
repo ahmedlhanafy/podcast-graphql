@@ -38,12 +38,6 @@ interface ResponseAPI {
   results: Array<PodcastAPI>
 }
 
-interface SearchPodcastsResult extends PodcastAPI {
-  id: number
-  name: string
-  itunesUrl: string
-}
-
 interface ParsePodcastApiResponse {
   title: string
   description: {
