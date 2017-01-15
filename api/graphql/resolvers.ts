@@ -8,7 +8,7 @@ import {
 } from '../itunes/connectors';
 
 const resolvePodcasts = async ({ id, name, genreId, limit }) => {
-  let results: Array<ItunesApiResult>;
+  let results: Array<PodcastAPI>;
   if (id) {
     results = await findOnePodcast({ id });
   } else {

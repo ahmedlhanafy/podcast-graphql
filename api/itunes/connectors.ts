@@ -3,21 +3,21 @@ import parsePodcastPromise from '../utils/parsePodcastPromise';
 import UrlBuilder from '../utils/urlBuilder';
 
 const fetchItunesApiResults = async ({ url }: { url?: string }):
-  Promise<Array<ItunesApiResult>> => {
+  Promise<Array<PodcastAPI>> => {
   const data = await fetch(url);
-  const jsonData: ItunesApiResponse = await data.json();
+  const jsonData: ResponseAPI = await data.json();
   return jsonData.results;
 };
 
 export const findOnePodcast = async ({ id }: { id?: string }):
-  Promise<Array<ItunesApiResult>> => {
+  Promise<Array<PodcastAPI>> => {
   const url = new UrlBuilder().lookup(id).toString();
   return fetchItunesApiResults({ url });
 };
 
 export const findAllPodcasts = async ({ name, genreId, limit }:
   { name?: string, genreId?: number, limit?: number }):
-  Promise<Array<ItunesApiResult>> => {
+  Promise<Array<PodcastAPI>> => {
   let url;
   if (genreId) {
     url = new UrlBuilder()
