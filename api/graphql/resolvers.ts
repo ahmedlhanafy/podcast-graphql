@@ -13,7 +13,7 @@ const createResolvers = {
       _,
       { id, name, genreId, limit },
       { token }: { token?: String },
-      ) {
+    ) {
       let results: Array<ItunesApiResult>;
       if (id) {
         results = await findOnePodcast({ id });
@@ -30,13 +30,13 @@ const createResolvers = {
     async login(root, args) {
       const { email, password } = args;
       try {
-        const user: any = await User.findOne({email});
+        const user: any = await User.findOne({ email });
         if (user) {
           if (user.password !== password) {
             return {
               success: false,
               message: 'Authentication failed. Wrong password.',
-             };
+            };
           } else {
             return {
               success: true,
@@ -44,7 +44,7 @@ const createResolvers = {
               token: generateJwtToken(user),
             };
           }
-        }else {
+        } else {
           return {
             success: false,
             message: 'Authentication failed. User not found.',

@@ -54,7 +54,7 @@ type Enclosure {
   url: String
 }
 
-type AuthResponse{
+type AuthResponse {
   success: Boolean!
   message: String!
   token: String
