@@ -19,7 +19,7 @@ type Podcast {
 type Artist {
   name: String
   itunesUrl: String
-  id: ID!
+  id: ID
 }
 
 type Artwork {
