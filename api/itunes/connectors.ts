@@ -1,5 +1,5 @@
 import * as fetch from 'node-fetch';
-import parsePodcastPromise from '../utils/parsePodcastPromise';
+import parsePodcast from '../utils/parsePodcast';
 import UrlBuilder from '../utils/urlBuilder';
 
 const fetchItunesApiResults = async ({ url }: { url?: string }):
@@ -33,7 +33,7 @@ export const searchEpisodes = async ({ feedUrl, limit }:
   { feedUrl: string, limit?: number }): Promise<Array<Episode>> => {
   const podcastData = await fetch(feedUrl);
   const podcastJsonData = await podcastData.text();
-  const podcastParsedData = await parsePodcastPromise(podcastJsonData);
+  const podcastParsedData = await parsePodcast(podcastJsonData);
   return podcastParsedData.episodes
     .slice(0, limit || podcastParsedData.episodes.length - 1);
 };
