@@ -38,7 +38,7 @@ interface ResponseAPI {
   results: Array<PodcastAPI>
 }
 
-interface ParsePodcastApiResponse {
+interface ParsedPodcastAPI {
   title: string
   description: {
     short: string
