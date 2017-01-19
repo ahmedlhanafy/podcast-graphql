@@ -4,7 +4,7 @@ import { extractColors, formatColor } from '../utils';
 import {
   findAllPodcasts,
   findOnePodcast,
-  searchEpisodes,
+  fetchEpisodes,
 } from '../itunes/connectors';
 
 const resolvePodcasts = async ({ id, name, genreId, limit }) => {
@@ -71,7 +71,7 @@ const resolveSignup = async ({ email, password }) => {
 };
 
 const resolveEpisodes = ({ feedUrl }, { limit }) => {
-  return searchEpisodes({ feedUrl, limit });
+  return fetchEpisodes({ feedUrl, limit });
 };
 
 const resolveArtworkUrls = (
