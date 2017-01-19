@@ -38,7 +38,7 @@ interface PodcastAPI {
   genres: Array<string>
 }
 
-interface ParsedPodcastAPI {
+interface ParsedPodcast {
   title: string
   description: {
     short: string
@@ -54,10 +54,10 @@ interface ParsedPodcastAPI {
     name: string
     email: string
   }
-  episodes: Array<Episode>
+  episodes: Array<ParsedEpisode>
 }
 
-interface Episode {
+interface ParsedEpisode {
   guid: string
   title: string
   description: string

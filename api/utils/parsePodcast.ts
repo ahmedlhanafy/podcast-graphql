@@ -1,7 +1,7 @@
 import * as parsePodcastCallback from 'node-podcast-parser';
 
 const parsePodcast = data =>
-  new Promise<ParsedPodcastAPI>((resolve, reject) => {
+  new Promise<ParsedPodcast>((resolve, reject) => {
     parsePodcastCallback(data, (err, parsedData) => {
       if (err) {
         reject(err);

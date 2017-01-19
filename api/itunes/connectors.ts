@@ -30,10 +30,10 @@ export const findAllPodcasts = async ({ name, genreId, limit }:
 };
 
 export const searchEpisodes = async ({ feedUrl, limit }:
-  { feedUrl: string, limit?: number }): Promise<Array<Episode>> => {
+  { feedUrl: string, limit?: number }): Promise<Array<ParsedEpisode>> => {
   const data = await fetch(feedUrl);
   const textData = await data.text();
-  const parsedPodcast: ParsedPodcastAPI = await parsePodcast(textData);
+  const parsedPodcast: ParsedPodcast = await parsePodcast(textData);
   return parsedPodcast.episodes
     .slice(0, limit || parsedPodcast.episodes.length - 1);
 };
