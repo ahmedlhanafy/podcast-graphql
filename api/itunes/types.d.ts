@@ -1,3 +1,8 @@
+interface ResponseAPI {
+  resultCount: number
+  results: Array<PodcastAPI>
+}
+
 interface PodcastAPI {
   wrapperType: string
   kind: string
@@ -31,11 +36,6 @@ interface PodcastAPI {
   artworkUrl600: string
   genreIds: Array<number>
   genres: Array<string>
-}
-
-interface ResponseAPI {
-  resultCount: number
-  results: Array<PodcastAPI>
 }
 
 interface ParsedPodcastAPI {
