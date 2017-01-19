@@ -29,7 +29,7 @@ export const findAllPodcasts = async ({ name, genreId, limit }:
   return fetchPodcasts({ url });
 };
 
-export const searchEpisodes = async ({ feedUrl, limit }:
+export const fetchEpisodes = async ({ feedUrl, limit }:
   { feedUrl: string, limit?: number }): Promise<Array<ParsedEpisode>> => {
   const data = await fetch(feedUrl);
   const textData = await data.text();
