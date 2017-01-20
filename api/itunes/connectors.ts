@@ -36,5 +36,5 @@ export const fetchEpisodes = async ({ feedUrl, first, offset }:
   const textData = await data.text();
   const parsedPodcast: ParsedPodcast = await parsePodcast(textData);
   return parsedPodcast.episodes
-    .slice(offset, first + offset || parsedPodcast.episodes.length - 1);
+    .slice(offset, first + offset || parsedPodcast.episodes.length);
 };
