@@ -2,18 +2,18 @@ const schema = `
 type Podcast {
   artist: Artist
   artworkUrls: Artwork
-  country: String!
+  country: String
   episodes(first: Int, offset: Int): [Episode]
-  feedUrl: String!
-  genreIds: [Int]!
-  genres: [String]!
-  id: ID!
-  viewUrl: String!
-  name: String!
+  feedUrl: String
+  genreIds: [Int]
+  genres: [String]
+  id: ID
+  viewUrl: String
+  name: String
   palette: Palette
   primaryGenreName: String
   releaseDate: String
-  trackCount: Int!
+  trackCount: Int
 }
 
 type Artist {
@@ -23,10 +23,10 @@ type Artist {
 }
 
 type Artwork {
-  xsmall: String!
-  small: String!
-  medium: String!
-  large: String!
+  xsmall: String
+  small: String
+  medium: String
+  large: String
 }
 
 type Episode {
@@ -55,8 +55,8 @@ type Enclosure {
 }
 
 type AuthResponse {
-  success: Boolean!
-  message: String!
+  success: Boolean
+  message: String
   token: String
 }
 
