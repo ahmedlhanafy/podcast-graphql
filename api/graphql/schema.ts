@@ -16,6 +16,7 @@ type Podcast {
   trackCount: Int
 }
 
+
 type Artist {
   name: String
   viewUrl: String
@@ -60,10 +61,29 @@ type AuthResponse {
   token: String
 }
 
+enum Genre {
+  ARTS
+  COMEDY
+  EDUCATION
+  FAMILY
+  HEALTH
+  TV
+  MUSIC
+  NEWS
+  RELIGION
+  SCIENCE
+  SPORTS
+  TECHNOLOGY
+  BUSINESS
+  GAMES
+  SOCIETY
+  GOVERNMENT
+}
+
 type Query {
   login(email: String!, password: String!): AuthResponse
   signup(email: String!, password: String!): AuthResponse
-  podcasts(id: String, name: String, genreId: Int, limit: Int): [Podcast]
+  podcasts(id: String, name: String, genre: Genre, limit: Int): [Podcast]
 }
 
 schema {

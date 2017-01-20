@@ -15,13 +15,13 @@ export const findOnePodcast = async ({ id }: { id: string }):
   return fetchPodcasts({ url });
 };
 
-export const findAllPodcasts = async ({ name, genreId, limit }:
-  { name: string, genreId: number, limit: number }):
+export const findAllPodcasts = async ({ name, genre, limit }:
+  { name: string, genre: string, limit: number }):
   Promise<Array<PodcastAPI>> => {
   let url: string;
-  if (genreId) {
+  if (genre) {
     url = new UrlBuilder()
-      .search('podcast').byGenreId(genreId).withLimit(limit).toString();
+      .search('podcast').byGenre(genre).withLimit(limit).toString();
   } else {
     url = new UrlBuilder()
       .search(name).withLimit(limit).toString();

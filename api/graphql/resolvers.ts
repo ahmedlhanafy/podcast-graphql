@@ -57,14 +57,14 @@ const resolveSignup = async ({ email, password }:
   }
 };
 
-const resolvePodcasts = async ({ id, name, genreId, limit }:
-  { id: string, name: string, genreId: number, limit: number }):
+const resolvePodcasts = async ({ id, name, genre, limit }:
+  { id: string, name: string, genre: string, limit: number }):
   Promise<Array<PodcastAPI>> => {
   let results: Array<PodcastAPI>;
   if (id) {
     results = await findOnePodcast({ id });
   } else {
-    results = await findAllPodcasts({ name, genreId, limit });
+    results = await findAllPodcasts({ name, genre, limit });
   }
   return results.map(podcast => ({
     ...podcast,
