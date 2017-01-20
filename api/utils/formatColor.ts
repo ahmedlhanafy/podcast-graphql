@@ -1,4 +1,4 @@
-const formatColor = (values: Array<any>) => {
+const formatColor = (values: Array<any>): string => {
   if (values) {
     const enhancedColorsStr = values.map(num => parseInt(num, 10)).join(',');
     return `rgb(${enhancedColorsStr})`;

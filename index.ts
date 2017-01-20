@@ -30,5 +30,6 @@ app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql',
 }));
 
-// tslint:disable-next-line:no-console
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}...`));
+// tslint:disable:no-console
+app.listen(PORT, () =>
+  console.log(`Running a GraphQL API server at localhost:${PORT}/graphql...`));

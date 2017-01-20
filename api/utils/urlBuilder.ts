@@ -16,28 +16,28 @@ export default class UrlBuilder {
         return this;
     }
 
-    public lookup(id: string) {
+    public lookup(id: string): UrlBuilder {
         this.lookupId = id;
         return this;
     }
 
-    public search(term: string) {
+    public search(term: string): UrlBuilder {
         this.searchTerm = term;
         return this;
     }
 
     // https://affiliate.itunes.apple.com/resources/documentation/genre-mapping/
-    public byGenreId(id: number) {
+    public byGenreId(id: number): UrlBuilder {
         this.searchGenreId = id;
         return this;
     }
 
-    public withLimit(limit: number) {
+    public withLimit(limit: number): UrlBuilder {
         this.searchLimit = limit;
         return this;
     }
 
-    public toString() {
+    public toString(): string {
         let str: string = this.hostUri;
         if (this.lookupId) {
             // Lookup

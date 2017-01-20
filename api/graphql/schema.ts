@@ -63,7 +63,7 @@ type AuthResponse {
 type Query {
   login(email: String!, password: String!): AuthResponse
   signup(email: String!, password: String!): AuthResponse
-  podcasts(name: String, genreId: Int, limit: Int, id: String): [Podcast]
+  podcasts(id: String, name: String, genreId: Int, limit: Int): [Podcast]
 }
 
 schema {

@@ -1,5 +1,5 @@
 import { User } from '../models';
-import { generateJwtToken } from '../auth/jwtHelpers';
+import { generateToken } from '../auth/jwtHelpers';
 import { extractColors, formatColor } from '../utils';
 import {
   findAllPodcasts,
@@ -7,22 +7,8 @@ import {
   fetchEpisodes,
 } from '../itunes/connectors';
 
-const resolvePodcasts = async ({ id, name, genreId, limit }) => {
-  let results: Array<PodcastAPI>;
-  if (id) {
-    results = await findOnePodcast({ id });
-  } else {
-    results = await findAllPodcasts({ name, genreId, limit });
-  }
-  return results.map(podcast => ({
-    ...podcast,
-    id: podcast.collectionId,
-    name: podcast.collectionName,
-    viewUrl: podcast.collectionViewUrl,
-  }));
-};
-
-const resolveLogin = async ({ email, password }) => {
+const resolveLogin = async ({ email, password }:
+  { email: string, password: string }): Promise<any> => {
   try {
     const user: any = await User.findOne({ email });
     if (user) {
@@ -35,7 +21,7 @@ const resolveLogin = async ({ email, password }) => {
         return {
           success: true,
           message: 'Authentication Succeeded',
-          token: generateJwtToken(user),
+          token: generateToken(user),
         };
       }
     } else {
@@ -53,14 +39,15 @@ const resolveLogin = async ({ email, password }) => {
   }
 };
 
-const resolveSignup = async ({ email, password }) => {
+const resolveSignup = async ({ email, password }:
+  { email: string, password: string }): Promise<any> => {
   const newUser = new User({ email, password });
   try {
     const user = await newUser.save();
     return {
       success: true,
       message: 'Authentication Succeeded',
-      token: generateJwtToken(user),
+      token: generateToken(user),
     };
   } catch (err) {
     return {
@@ -70,13 +57,42 @@ const resolveSignup = async ({ email, password }) => {
   }
 };
 
-const resolveEpisodes = ({ feedUrl }, { first, offset }) => {
-  return fetchEpisodes({ feedUrl, first, offset });
+const resolvePodcasts = async ({ id, name, genreId, limit }:
+  { id: string, name: string, genreId: number, limit: number }):
+  Promise<Array<PodcastAPI>> => {
+  let results: Array<PodcastAPI>;
+  if (id) {
+    results = await findOnePodcast({ id });
+  } else {
+    results = await findAllPodcasts({ name, genreId, limit });
+  }
+  return results.map(podcast => ({
+    ...podcast,
+    id: podcast.collectionId,
+    name: podcast.collectionName,
+    viewUrl: podcast.collectionViewUrl,
+  }));
+};
+
+const resolveEpisodes = async ({ feedUrl }: { feedUrl: string },
+  { first, offset }: { first: number, offset: number }):
+  Promise<Array<ParsedEpisode>> => {
+  return await fetchEpisodes({ feedUrl, first, offset });
 };
 
 const resolveArtworkUrls = (
-  { artworkUrl30, artworkUrl60, artworkUrl100, artworkUrl600 },
-) => {
+  {
+    artworkUrl30,
+    artworkUrl60,
+    artworkUrl100,
+    artworkUrl600,
+  }: {
+      artworkUrl30: string,
+      artworkUrl60: string,
+      artworkUrl100: string,
+      artworkUrl600: string,
+    },
+): any => {
   return {
     xsmall: artworkUrl30,
     small: artworkUrl60,
@@ -85,7 +101,8 @@ const resolveArtworkUrls = (
   };
 };
 
-const resolveArtist = ({ artistId, artistName, artistViewUrl }) => {
+const resolveArtist = ({ artistId, artistName, artistViewUrl }:
+  { artistId: string, artistName: string, artistViewUrl: string }): any => {
   return {
     id: artistId,
     name: artistName,
@@ -93,7 +110,8 @@ const resolveArtist = ({ artistId, artistName, artistViewUrl }) => {
   };
 };
 
-const resolvePalette = async ({ artworkUrl60 }) => {
+const resolvePalette = async ({ artworkUrl60 }: { artworkUrl60: string }):
+  Promise<any> => {
   const colorPalette = await extractColors(artworkUrl60);
   return {
     vibrantColor: {
@@ -113,27 +131,27 @@ const resolvePalette = async ({ artworkUrl60 }) => {
 
 const resolversMap = {
   Query: {
-    podcasts(_, args) {
-      return resolvePodcasts(args);
-    },
-    login(_, args) {
+    login(_, args: any): Promise<any> {
       return resolveLogin(args);
     },
-    signup(_, args) {
+    signup(_, args: any): Promise<any> {
       return resolveSignup(args);
+    },
+    podcasts(_, args: any): Promise<Array<PodcastAPI>> {
+      return resolvePodcasts(args);
     },
   },
   Podcast: {
-    episodes(root, args) {
+    episodes(root: any, args: any): Promise<Array<ParsedEpisode>> {
       return resolveEpisodes(root, args);
     },
-    artworkUrls(root) {
+    artworkUrls(root: any): any {
       return resolveArtworkUrls(root);
     },
-    artist(root) {
+    artist(root: any): any {
       return resolveArtist(root);
     },
-    palette(root) {
+    palette(root: any): Promise<any> {
       return resolvePalette(root);
     },
   },
