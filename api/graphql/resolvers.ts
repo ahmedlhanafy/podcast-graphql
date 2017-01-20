@@ -70,8 +70,8 @@ const resolveSignup = async ({ email, password }) => {
   }
 };
 
-const resolveEpisodes = ({ feedUrl }, { limit }) => {
-  return fetchEpisodes({ feedUrl, limit });
+const resolveEpisodes = ({ feedUrl }, { first, offset }) => {
+  return fetchEpisodes({ feedUrl, first, offset });
 };
 
 const resolveArtworkUrls = (

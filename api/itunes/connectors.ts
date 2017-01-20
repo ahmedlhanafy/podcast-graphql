@@ -29,11 +29,12 @@ export const findAllPodcasts = async ({ name, genreId, limit }:
   return fetchPodcasts({ url });
 };
 
-export const fetchEpisodes = async ({ feedUrl, limit }:
-  { feedUrl: string, limit?: number }): Promise<Array<ParsedEpisode>> => {
+export const fetchEpisodes = async ({ feedUrl, first, offset }:
+  { feedUrl: string, first?: number, offset?: number }):
+  Promise<Array<ParsedEpisode>> => {
   const data = await fetch(feedUrl);
   const textData = await data.text();
   const parsedPodcast: ParsedPodcast = await parsePodcast(textData);
   return parsedPodcast.episodes
-    .slice(0, limit || parsedPodcast.episodes.length - 1);
+    .slice(offset, first + offset || parsedPodcast.episodes.length - 1);
 };
