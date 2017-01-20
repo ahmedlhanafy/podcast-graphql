@@ -41,9 +41,9 @@ const resolveLogin = async ({ email, password }:
 
 const resolveSignup = async ({ email, password }:
   { email: string, password: string }): Promise<any> => {
-  const newUser = new User({ email, password });
+  const newUser: any = new User({ email, password });
   try {
-    const user = await newUser.save();
+    const user: any = await newUser.save();
     return {
       success: true,
       message: 'Authentication Succeeded',
@@ -112,7 +112,7 @@ const resolveArtist = ({ artistId, artistName, artistViewUrl }:
 
 const resolvePalette = async ({ artworkUrl60 }: { artworkUrl60: string }):
   Promise<any> => {
-  const colorPalette = await extractColors(artworkUrl60);
+  const colorPalette: ColorPalette = await extractColors(artworkUrl60);
   return {
     vibrantColor: {
       rgbColor: colorPalette.Vibrant ?
