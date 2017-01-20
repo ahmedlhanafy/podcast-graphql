@@ -1,4 +1,4 @@
-import { User } from '../models';
+import { User } from '../mongoose';
 import { generateToken } from '../auth/jwtHelpers';
 import { extractColors, formatColor } from '../utils';
 import {
