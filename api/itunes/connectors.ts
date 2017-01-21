@@ -10,7 +10,7 @@ const fetchPodcasts = async ({ url }: { url: string }):
   return jsonData.results;
 };
 
-export const fetchCategoricalPodcasts = async ({ url }: { url: string }):
+const fetchCategoricalPodcasts = async ({ url }: { url: string }):
   Promise<any> => {
   const data: any = await fetch(url);
   const jsonData: any = await data.json();
@@ -40,14 +40,15 @@ export const findAllPodcasts = async ({ name, genre, limit }:
 export const getFeaturedPodcasts = async () => {
   const url: string = new PocketCastsUrlBuilder().featured().toString();
   const featuredPodcasts: any = await fetchCategoricalPodcasts({ url });
-  return await Promise.all(featuredPodcasts.map(async podcast => {
+  return (await Promise.all(featuredPodcasts.map(async podcast => {
     const searchResults: Array<PodcastAPI> = await findAllPodcasts({
       name: podcast.title,
       genre: undefined,
-      limit: 1,
+      limit: 200,
     });
-    return searchResults[0];
-  }));
+    return searchResults.find(searchResult =>
+      searchResult.collectionName === podcast.title);
+  }))).filter(searchResult => searchResult !== undefined);
 };
 
 export const fetchEpisodes = async ({ feedUrl, first, offset }:
