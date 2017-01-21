@@ -1,4 +1,4 @@
-export default class UrlBuilder {
+export default class ItunesUrlBuilder {
     private hostUri: string;
     private lookupResource: string;
     private lookupId: string;
@@ -16,23 +16,23 @@ export default class UrlBuilder {
         return this;
     }
 
-    public lookup(id: string): UrlBuilder {
+    public lookup(id: string): ItunesUrlBuilder {
         this.lookupId = id;
         return this;
     }
 
-    public search(term: string): UrlBuilder {
+    public search(term: string): ItunesUrlBuilder {
         this.searchTerm = term;
         return this;
     }
 
-    public byGenreId(id: number): UrlBuilder {
+    public byGenreId(id: number): ItunesUrlBuilder {
         this.searchGenreId = id;
         return this;
     }
 
     // https://affiliate.itunes.apple.com/resources/documentation/genre-mapping/
-    public byGenre(genre: string): UrlBuilder {
+    public byGenre(genre: string): ItunesUrlBuilder {
         switch (genre) {
             case 'ARTS': this.byGenreId(1301); break;
             case 'COMEDY': this.byGenreId(1303); break;
@@ -55,7 +55,7 @@ export default class UrlBuilder {
         return this;
     }
 
-    public withLimit(limit: number): UrlBuilder {
+    public withLimit(limit: number): ItunesUrlBuilder {
         this.searchLimit = limit;
         return this;
     }

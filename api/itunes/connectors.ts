@@ -1,6 +1,6 @@
 import * as fetch from 'node-fetch';
 import parsePodcast from '../utils/parsePodcast';
-import UrlBuilder from '../utils/urlBuilder';
+import ItunesUrlBuilder from '../utils/itunesUrlBuilder';
 
 const fetchPodcasts = async ({ url }: { url: string }):
   Promise<Array<PodcastAPI>> => {
@@ -11,7 +11,7 @@ const fetchPodcasts = async ({ url }: { url: string }):
 
 export const findOnePodcast = async ({ id }: { id: string }):
   Promise<Array<PodcastAPI>> => {
-  const url: string = new UrlBuilder().lookup(id).toString();
+  const url: string = new ItunesUrlBuilder().lookup(id).toString();
   return fetchPodcasts({ url });
 };
 
@@ -20,10 +20,10 @@ export const findAllPodcasts = async ({ name, genre, limit }:
   Promise<Array<PodcastAPI>> => {
   let url: string;
   if (genre) {
-    url = new UrlBuilder()
+    url = new ItunesUrlBuilder()
       .search('podcast').byGenre(genre).withLimit(limit).toString();
   } else {
-    url = new UrlBuilder()
+    url = new ItunesUrlBuilder()
       .search(name).withLimit(limit).toString();
   }
   return fetchPodcasts({ url });
