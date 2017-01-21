@@ -26,6 +26,15 @@
 }
 ```
 
+#### Search podcasts by category
+```graphql
+{
+  podcasts(category: FEATURED) {
+    name
+  }
+}
+```
+
 #### Lookup podcast by ID
 ```graphql
 {

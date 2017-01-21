@@ -1,3 +1,4 @@
+// tslint:disable:max-line-length
 const schema = `
 type Podcast {
   artist: Artist
@@ -15,7 +16,6 @@ type Podcast {
   releaseDate: String
   trackCount: Int
 }
-
 
 type Artist {
   name: String
@@ -80,10 +80,16 @@ enum Genre {
   GOVERNMENT
 }
 
+enum Category {
+  FEATURED
+  TRENDING
+  POPULAR
+}
+
 type Query {
   login(email: String!, password: String!): AuthResponse
   signup(email: String!, password: String!): AuthResponse
-  podcasts(id: String, name: String, genre: Genre, limit: Int): [Podcast]
+  podcasts(id: String, name: String, genre: Genre, category: Category, limit: Int): [Podcast]
 }
 
 schema {

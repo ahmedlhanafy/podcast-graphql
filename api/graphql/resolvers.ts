@@ -5,6 +5,9 @@ import {
   findAllPodcasts,
   findOnePodcast,
   fetchEpisodes,
+  getFeaturedPodcasts,
+  getTrendingPodcasts,
+  getPopularPodcasts,
 } from '../itunes/connectors';
 
 const resolveLogin = async ({ email, password }:
@@ -57,14 +60,23 @@ const resolveSignup = async ({ email, password }:
   }
 };
 
-const resolvePodcasts = async ({ id, name, genre, limit }:
-  { id: string, name: string, genre: string, limit: number }):
+const resolvePodcasts = async ({ id, name, genre, category, limit }:
+  { id: string, name: string, genre: string, category: string, limit: number }):
   Promise<Array<PodcastAPI>> => {
   let results: Array<PodcastAPI>;
   if (id) {
     results = await findOnePodcast({ id });
   } else {
-    results = await findAllPodcasts({ name, genre, limit });
+    if (category) {
+      switch (category) {
+        case 'FEATURED': results = await getFeaturedPodcasts(); break;
+        case 'TRENDING': results = await getTrendingPodcasts(); break;
+        case 'POPULAR': results = await getPopularPodcasts(); break;
+        default: break;
+      }
+    } else {
+      results = await findAllPodcasts({ name, genre, limit });
+    }
   }
   return results.map(podcast => ({
     ...podcast,
