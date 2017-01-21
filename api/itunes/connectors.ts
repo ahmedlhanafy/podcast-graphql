@@ -10,13 +10,6 @@ const fetchPodcasts = async ({ url }: { url: string }):
   return jsonData.results;
 };
 
-const fetchCategoricalPodcasts = async ({ url }: { url: string }):
-  Promise<any> => {
-  const data: any = await fetch(url);
-  const jsonData: any = await data.json();
-  return jsonData.result.podcasts;
-};
-
 export const findOnePodcast = async ({ id }: { id: string }):
   Promise<Array<PodcastAPI>> => {
   const url: string = new ItunesUrlBuilder().lookup(id).toString();
@@ -37,10 +30,15 @@ export const findAllPodcasts = async ({ name, genre, limit }:
   return fetchPodcasts({ url });
 };
 
-export const getFeaturedPodcasts = async () => {
-  const url: string = new PocketCastsUrlBuilder().featured().toString();
-  const featuredPodcasts: any = await fetchCategoricalPodcasts({ url });
-  return (await Promise.all(featuredPodcasts.map(async podcast => {
+const fetchCategoricalPodcasts = async ({ url }: { url: string }):
+  Promise<any> => {
+  const data: any = await fetch(url);
+  const jsonData: any = await data.json();
+  return jsonData.result.podcasts;
+};
+
+const normalizeCategoricalPodcasts = async (podcasts) => {
+  return (await Promise.all(podcasts.map(async podcast => {
     const searchResults: Array<PodcastAPI> = await findAllPodcasts({
       name: podcast.title,
       genre: undefined,
@@ -49,6 +47,12 @@ export const getFeaturedPodcasts = async () => {
     return searchResults.find(searchResult =>
       searchResult.collectionName === podcast.title);
   }))).filter(searchResult => searchResult !== undefined);
+};
+
+export const getFeaturedPodcasts = async () => {
+  const url: string = new PocketCastsUrlBuilder().featured().toString();
+  const featuredPodcasts: any = await fetchCategoricalPodcasts({ url });
+  return await normalizeCategoricalPodcasts(featuredPodcasts);
 };
 
 export const fetchEpisodes = async ({ feedUrl, first, offset }:
