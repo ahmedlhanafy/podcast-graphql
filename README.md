@@ -3,3 +3,46 @@
 ## Usage
 * `npm install`
 * `npm start`
+
+## GraphQL <img src="http://graphql.org/img/logo.svg" width="20"/>
+
+### Sample GraphQL Queries
+
+#### Search podcasts by name
+```graphql
+{
+  podcasts(name: "Modern", limit: 5) {
+    name
+  }
+}
+```
+
+#### Search podcasts by genre
+```graphql
+{
+  podcasts(genre: COMEDY, limit: 5) {
+    name
+  }
+}
+```
+
+#### Lookup podcast by ID
+```graphql
+{
+  podcasts(id: "863897795") {
+    name
+  }
+}
+```
+
+#### Retrieve paginated episodes
+```graphql
+{
+  podcasts(id: "863897795") {
+    name
+    episodes(offset: 0, first: 10) {
+      title
+    }
+  }
+}
+```
