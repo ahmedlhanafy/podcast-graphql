@@ -1,12 +1,20 @@
 import * as fetch from 'node-fetch';
 import parsePodcast from '../utils/parsePodcast';
 import ItunesUrlBuilder from '../utils/itunesUrlBuilder';
+import PocketCastsUrlBuilder from '../utils/pocketCastsUrlBuilder';
 
 const fetchPodcasts = async ({ url }: { url: string }):
   Promise<Array<PodcastAPI>> => {
   const data: any = await fetch(url);
   const jsonData: ResponseAPI = await data.json();
   return jsonData.results;
+};
+
+export const fetchCategoricalPodcasts = async ({ url }: { url: string }):
+  Promise<any> => {
+  const data: any = await fetch(url);
+  const jsonData: any = await data.json();
+  return jsonData.result.podcasts;
 };
 
 export const findOnePodcast = async ({ id }: { id: string }):
@@ -27,6 +35,19 @@ export const findAllPodcasts = async ({ name, genre, limit }:
       .search(name).withLimit(limit).toString();
   }
   return fetchPodcasts({ url });
+};
+
+export const getFeaturedPodcasts = async () => {
+  const url: string = new PocketCastsUrlBuilder().featured().toString();
+  const featuredPodcasts: any = await fetchCategoricalPodcasts({ url });
+  return await Promise.all(featuredPodcasts.map(async podcast => {
+    const searchResults: Array<PodcastAPI> = await findAllPodcasts({
+      name: podcast.title,
+      genre: undefined,
+      limit: 1,
+    });
+    return searchResults[0];
+  }));
 };
 
 export const fetchEpisodes = async ({ feedUrl, first, offset }:
