@@ -37,35 +37,29 @@ const fetchCategoricalPodcasts = async ({ url }: { url: string }):
   return jsonData.result.podcasts;
 };
 
-const normalizeCategoricalPodcasts = async (podcasts: any):
-  Promise<Array<any>> => {
-  return (await Promise.all(podcasts.map(async podcast => {
-    const searchResults: Array<PodcastAPI> = await findAllPodcasts({
-      name: podcast.title,
-      genre: undefined,
-      limit: 200,
-    });
-    return searchResults.find(searchResult =>
-      searchResult.collectionName === podcast.title);
-  }))).filter(searchResult => searchResult !== undefined);
+const normalizeCategoricalPodcasts = (podcasts: Array<any>): Array<any> => {
+  return podcasts.map(podcast => ({
+    collectionName: podcast.title,
+    artworkUrl600: podcast.thumbnail_url_small,
+  }));
 };
 
 export const getFeaturedPodcasts = async (): Promise<Array<PodcastAPI>> => {
   const url: string = new PocketCastsUrlBuilder().featured().toString();
   const featuredPodcasts: any = await fetchCategoricalPodcasts({ url });
-  return await normalizeCategoricalPodcasts(featuredPodcasts);
+  return normalizeCategoricalPodcasts(featuredPodcasts);
 };
 
 export const getTrendingPodcasts = async (): Promise<Array<PodcastAPI>> => {
   const url: string = new PocketCastsUrlBuilder().trending().toString();
   const trendingPodcasts: any = await fetchCategoricalPodcasts({ url });
-  return await normalizeCategoricalPodcasts(trendingPodcasts);
+  return normalizeCategoricalPodcasts(trendingPodcasts);
 };
 
 export const getPopularPodcasts = async (): Promise<Array<PodcastAPI>> => {
   const url: string = new PocketCastsUrlBuilder().popular().toString();
   const popularPodcasts: any = await fetchCategoricalPodcasts({ url });
-  return await normalizeCategoricalPodcasts(popularPodcasts);
+  return normalizeCategoricalPodcasts(popularPodcasts);
 };
 
 export const fetchEpisodes = async ({ feedUrl, first, offset }:
