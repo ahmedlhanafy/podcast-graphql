@@ -6,7 +6,7 @@ import PocketCastsUrlBuilder from '../utils/pocketCastsUrlBuilder';
 const fetchPodcasts = async ({ url }: { url: string }):
   Promise<Array<PodcastAPI>> => {
   const data: any = await fetch(url);
-  const jsonData: ResponseAPI = await data.json();
+  const jsonData: ItunesResponse = await data.json();
   return jsonData.results;
 };
 

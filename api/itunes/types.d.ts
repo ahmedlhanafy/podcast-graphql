@@ -1,4 +1,4 @@
-interface ResponseAPI {
+interface ItunesResponse {
   resultCount: number
   results: Array<PodcastAPI>
 }
