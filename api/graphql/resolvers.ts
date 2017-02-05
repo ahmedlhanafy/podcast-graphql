@@ -62,8 +62,8 @@ const resolveSignup = async ({ email, password }:
 
 const resolvePodcasts = async ({ id, name, genre, category, limit }:
   { id: string, name: string, genre: string, category: string, limit: number }):
-  Promise<Array<PodcastAPI>> => {
-  let results: Array<PodcastAPI>;
+  Promise<Array<ItunesPodcast>> => {
+  let results: Array<ItunesPodcast>;
   if (id) {
     results = await findOnePodcast({ id });
   } else {
@@ -149,7 +149,7 @@ const resolversMap = {
     signup(_, args: any): Promise<any> {
       return resolveSignup(args);
     },
-    podcasts(_, args: any): Promise<Array<PodcastAPI>> {
+    podcasts(_, args: any): Promise<Array<ItunesPodcast>> {
       return resolvePodcasts(args);
     },
   },

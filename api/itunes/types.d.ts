@@ -1,9 +1,9 @@
 interface ItunesResponse {
   resultCount: number
-  results: Array<PodcastAPI>
+  results: Array<ItunesPodcast>
 }
 
-interface PodcastAPI {
+interface ItunesPodcast {
   wrapperType: string
   kind: string
   collectionId: number

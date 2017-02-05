@@ -4,21 +4,21 @@ import ItunesUrlBuilder from '../utils/itunesUrlBuilder';
 import PocketCastsUrlBuilder from '../utils/pocketCastsUrlBuilder';
 
 const fetchPodcasts = async ({ url }: { url: string }):
-  Promise<Array<PodcastAPI>> => {
+  Promise<Array<ItunesPodcast>> => {
   const data: any = await fetch(url);
   const jsonData: ItunesResponse = await data.json();
   return jsonData.results;
 };
 
 export const findOnePodcast = async ({ id }: { id: string }):
-  Promise<Array<PodcastAPI>> => {
+  Promise<Array<ItunesPodcast>> => {
   const url: string = new ItunesUrlBuilder().lookup(id).toString();
   return fetchPodcasts({ url });
 };
 
 export const findAllPodcasts = async ({ name, genre, limit }:
   { name: string, genre: string, limit: number }):
-  Promise<Array<PodcastAPI>> => {
+  Promise<Array<ItunesPodcast>> => {
   let url: string;
   if (genre) {
     url = new ItunesUrlBuilder()
@@ -44,19 +44,19 @@ const normalizeCategoricalPodcasts = (podcasts: Array<any>): Array<any> => {
   }));
 };
 
-export const getFeaturedPodcasts = async (): Promise<Array<PodcastAPI>> => {
+export const getFeaturedPodcasts = async (): Promise<Array<ItunesPodcast>> => {
   const url: string = new PocketCastsUrlBuilder().featured().toString();
   const featuredPodcasts: any = await fetchCategoricalPodcasts({ url });
   return normalizeCategoricalPodcasts(featuredPodcasts);
 };
 
-export const getTrendingPodcasts = async (): Promise<Array<PodcastAPI>> => {
+export const getTrendingPodcasts = async (): Promise<Array<ItunesPodcast>> => {
   const url: string = new PocketCastsUrlBuilder().trending().toString();
   const trendingPodcasts: any = await fetchCategoricalPodcasts({ url });
   return normalizeCategoricalPodcasts(trendingPodcasts);
 };
 
-export const getPopularPodcasts = async (): Promise<Array<PodcastAPI>> => {
+export const getPopularPodcasts = async (): Promise<Array<ItunesPodcast>> => {
   const url: string = new PocketCastsUrlBuilder().popular().toString();
   const popularPodcasts: any = await fetchCategoricalPodcasts({ url });
   return normalizeCategoricalPodcasts(popularPodcasts);
