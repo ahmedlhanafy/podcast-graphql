@@ -44,21 +44,33 @@ const normalizeCategoricalPodcasts = (podcasts: Array<any>): Array<any> => {
   }));
 };
 
-export const getFeaturedPodcasts = async (): Promise<Array<ItunesPodcast>> => {
+export const getFeaturedPodcasts = async ({ limit }: { limit: number }):
+  Promise<Array<ItunesPodcast>> => {
   const url: string = new PocketCastsUrlBuilder().featured().toString();
-  const featuredPodcasts: any = await fetchCategoricalPodcasts({ url });
+  let featuredPodcasts: any = await fetchCategoricalPodcasts({ url });
+  if (limit) {
+    featuredPodcasts = featuredPodcasts.slice(0, limit);
+  }
   return normalizeCategoricalPodcasts(featuredPodcasts);
 };
 
-export const getTrendingPodcasts = async (): Promise<Array<ItunesPodcast>> => {
+export const getTrendingPodcasts = async ({ limit }: { limit: number }):
+  Promise<Array<ItunesPodcast>> => {
   const url: string = new PocketCastsUrlBuilder().trending().toString();
-  const trendingPodcasts: any = await fetchCategoricalPodcasts({ url });
+  let trendingPodcasts: any = await fetchCategoricalPodcasts({ url });
+  if (limit) {
+    trendingPodcasts = trendingPodcasts.slice(0, limit);
+  }
   return normalizeCategoricalPodcasts(trendingPodcasts);
 };
 
-export const getPopularPodcasts = async (): Promise<Array<ItunesPodcast>> => {
+export const getPopularPodcasts = async ({ limit }: { limit: number }):
+  Promise<Array<ItunesPodcast>> => {
   const url: string = new PocketCastsUrlBuilder().popular().toString();
-  const popularPodcasts: any = await fetchCategoricalPodcasts({ url });
+  let popularPodcasts: any = await fetchCategoricalPodcasts({ url });
+  if (limit) {
+    popularPodcasts = popularPodcasts.slice(0, limit);
+  }
   return normalizeCategoricalPodcasts(popularPodcasts);
 };
 

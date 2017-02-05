@@ -69,9 +69,9 @@ const resolvePodcasts = async ({ id, name, genre, category, limit }:
   } else {
     if (category) {
       switch (category) {
-        case 'FEATURED': results = await getFeaturedPodcasts(); break;
-        case 'TRENDING': results = await getTrendingPodcasts(); break;
-        case 'POPULAR': results = await getPopularPodcasts(); break;
+        case 'FEATURED': results = await getFeaturedPodcasts({ limit }); break;
+        case 'TRENDING': results = await getTrendingPodcasts({ limit }); break;
+        case 'POPULAR': results = await getPopularPodcasts({ limit }); break;
         default: break;
       }
     } else {
