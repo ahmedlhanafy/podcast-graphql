@@ -1,56 +1,172 @@
-import { findAllPodcasts, findOnePodcast, searchEpisodes } from '../itunes/connectors';
+import { User } from '../db';
+import { generateToken } from '../auth/jwtHelpers';
 import { extractColors, formatColor } from '../utils';
+import {
+  findAllPodcasts,
+  findOnePodcast,
+  fetchEpisodes,
+  getFeaturedPodcasts,
+  getTrendingPodcasts,
+  getPopularPodcasts,
+} from '../itunes/connectors';
 
-const createResolvers = {
-  Query: {
-    async podcasts(root, args) {
-      let results;
-      if (args.id) {
-        results = await findOnePodcast(args);
+const resolveLogin = async ({ email, password }:
+  { email: string, password: string }): Promise<any> => {
+  try {
+    const user: any = await User.findOne({ email });
+    if (user) {
+      if (user.password !== password) {
+        return {
+          success: false,
+          message: 'Authentication failed. Wrong password.',
+        };
       } else {
-        results = await findAllPodcasts(args);
+        return {
+          success: true,
+          message: 'Authentication Succeeded',
+          token: generateToken(user),
+        };
       }
-      return results.map(podcast => ({
-        ...podcast,
-        id: podcast.collectionId,
-        name: podcast.collectionName,
-        itunesUrl: podcast.collectionViewUrl,
-      }));
+    } else {
+      return {
+        success: false,
+        message: 'Authentication failed. User not found.',
+      };
+    }
+  } catch (err) {
+    return {
+      success: false,
+      // @FIXME: we need to send proper error message in this case
+      message: err,
+    };
+  }
+};
+
+const resolveSignup = async ({ email, password }:
+  { email: string, password: string }): Promise<any> => {
+  const newUser: any = new User({ email, password });
+  try {
+    const user: any = await newUser.save();
+    return {
+      success: true,
+      message: 'Authentication Succeeded',
+      token: generateToken(user),
+    };
+  } catch (err) {
+    return {
+      success: false,
+      message: err,
+    };
+  }
+};
+
+const resolvePodcasts = async ({ id, name, genre, category, limit }:
+  { id: string, name: string, genre: string, category: string, limit: number }):
+  Promise<Array<ItunesPodcast>> => {
+  let results: Array<ItunesPodcast>;
+  if (id) {
+    results = await findOnePodcast({ id });
+  } else {
+    if (category) {
+      switch (category) {
+        case 'FEATURED': results = await getFeaturedPodcasts({ limit }); break;
+        case 'TRENDING': results = await getTrendingPodcasts({ limit }); break;
+        case 'POPULAR': results = await getPopularPodcasts({ limit }); break;
+        default: break;
+      }
+    } else {
+      results = await findAllPodcasts({ name, genre, limit });
+    }
+  }
+  return results.map(podcast => ({
+    ...podcast,
+    id: podcast.collectionId,
+    name: podcast.collectionName,
+    viewUrl: podcast.collectionViewUrl,
+  }));
+};
+
+const resolveEpisodes = async ({ feedUrl }: { feedUrl: string },
+  { first, offset }: { first: number, offset: number }):
+  Promise<Array<ParsedEpisode>> => {
+  return await fetchEpisodes({ feedUrl, first, offset });
+};
+
+const resolveArtworkUrls = (
+  {
+    artworkUrl30,
+    artworkUrl60,
+    artworkUrl100,
+    artworkUrl600,
+  }: {
+      artworkUrl30: string,
+      artworkUrl60: string,
+      artworkUrl100: string,
+      artworkUrl600: string,
+    },
+): any => {
+  return {
+    xsmall: artworkUrl30,
+    small: artworkUrl60,
+    medium: artworkUrl100,
+    large: artworkUrl600,
+  };
+};
+
+const resolveArtist = ({ artistId, artistName, artistViewUrl }:
+  { artistId: string, artistName: string, artistViewUrl: string }): any => {
+  return {
+    id: artistId,
+    name: artistName,
+    viewUrl: artistViewUrl,
+  };
+};
+
+const resolvePalette = async ({ artworkUrl60 }: { artworkUrl60: string }):
+  Promise<any> => {
+  const colorPalette: ColorPalette = await extractColors(artworkUrl60);
+  return {
+    vibrantColor: {
+      rgbColor: colorPalette.Vibrant ?
+        formatColor(colorPalette.Vibrant.rgb) : 'rgb(75, 75, 75)',
+      population: colorPalette.Vibrant ?
+        colorPalette.Vibrant.population : 0,
+    },
+    darkVibrantColor: {
+      rgbColor: colorPalette.DarkVibrant ?
+        formatColor(colorPalette.DarkVibrant.rgb) : 'rgb(220, 156, 156)',
+      population: colorPalette.DarkVibrant ?
+        colorPalette.DarkVibrant.population : 0,
+    },
+  };
+};
+
+const resolversMap = {
+  Query: {
+    login(_, args: any): Promise<any> {
+      return resolveLogin(args);
+    },
+    signup(_, args: any): Promise<any> {
+      return resolveSignup(args);
+    },
+    podcasts(_, args: any): Promise<Array<ItunesPodcast>> {
+      return resolvePodcasts(args);
     },
   },
   Podcast: {
-    episodes({ feedUrl }) {
-      return searchEpisodes({ feedUrl });
+    episodes(root: any, args: any): Promise<Array<ParsedEpisode>> {
+      return resolveEpisodes(root, args);
     },
-    artworkUrls({
-      artworkUrl30: xsmall,
-      artworkUrl60: small,
-      artworkUrl100: medium,
-      artworkUrl600: large,
-    }) {
-      return { xsmall, small, medium, large };
+    artworkUrls(root: any): any {
+      return resolveArtworkUrls(root);
     },
-    artist({
-      artistId: id,
-      artistName: name,
-      artistViewUrl: itunesUrl,
-    }) {
-      return { id, name, itunesUrl };
+    artist(root: any): any {
+      return resolveArtist(root);
     },
-    async palette({ artworkUrl60 }) {
-      const colorPalette = await extractColors(artworkUrl60);
-      return {
-        vibrantColor: {
-          rgbColor: colorPalette.Vibrant ? formatColor(colorPalette.Vibrant.rgb) : 'rgb(75, 75, 75)',
-          population: colorPalette.Vibrant ? colorPalette.Vibrant.population : 0,
-        },
-        darkVibrantColor: {
-          rgbColor: colorPalette.DarkVibrant ? formatColor(colorPalette.DarkVibrant.rgb) : 'rgb(220, 156, 156)',
-          population: colorPalette.DarkVibrant ? colorPalette.DarkVibrant.population : 0,
-        },
-      };
+    palette(root: any): Promise<any> {
+      return resolvePalette(root);
     },
   },
 };
 
-export default createResolvers;
+export default resolversMap;

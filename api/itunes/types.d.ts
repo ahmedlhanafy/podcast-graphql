@@ -1,4 +1,9 @@
-interface ItunesApiResult {
+interface ItunesResponse {
+  resultCount: number
+  results: Array<ItunesPodcast>
+}
+
+interface ItunesPodcast {
   wrapperType: string
   kind: string
   collectionId: number
@@ -33,18 +38,7 @@ interface ItunesApiResult {
   genres: Array<string>
 }
 
-interface ItunesApiResponse {
-  resultCount: number
-  results: Array<ItunesApiResult>
-}
-
-interface SearchPodcastsResult extends ItunesApiResult {
-  id: number
-  name: string
-  itunesUrl: string
-}
-
-interface ParsePodcastApiResponse {
+interface ParsedPodcast {
   title: string
   description: {
     short: string
@@ -60,10 +54,10 @@ interface ParsePodcastApiResponse {
     name: string
     email: string
   }
-  episodes: Array<Episode>
+  episodes: Array<ParsedEpisode>
 }
 
-interface Episode {
+interface ParsedEpisode {
   guid: string
   title: string
   description: string

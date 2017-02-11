@@ -1,32 +1,33 @@
+// tslint:disable:max-line-length
 const schema = `
 type Podcast {
   artist: Artist
   artworkUrls: Artwork
-  country: String!
-  episodes: [Episode]
-  feedUrl: String!
-  genreIds: [Int]!
-  genres: [String]!
-  id: ID!
-  itunesUrl: String!
-  name: String!
+  country: String
+  episodes(first: Int, offset: Int = 0): [Episode]
+  feedUrl: String
+  genreIds: [Int]
+  genres: [String]
+  id: ID
+  viewUrl: String
+  name: String
   palette: Palette
   primaryGenreName: String
   releaseDate: String
-  trackCount: Int!
+  trackCount: Int
 }
 
 type Artist {
   name: String
-  itunesUrl: String
-  id: ID!
+  viewUrl: String
+  id: ID
 }
 
 type Artwork {
-  xsmall: String!
-  small: String!
-  medium: String!
-  large: String!
+  xsmall: String
+  small: String
+  medium: String
+  large: String
 }
 
 type Episode {
@@ -54,8 +55,41 @@ type Enclosure {
   url: String
 }
 
+type AuthResponse {
+  success: Boolean
+  message: String
+  token: String
+}
+
+enum Genre {
+  ARTS
+  COMEDY
+  EDUCATION
+  FAMILY
+  HEALTH
+  TV
+  MUSIC
+  NEWS
+  RELIGION
+  SCIENCE
+  SPORTS
+  TECHNOLOGY
+  BUSINESS
+  GAMES
+  SOCIETY
+  GOVERNMENT
+}
+
+enum Category {
+  FEATURED
+  TRENDING
+  POPULAR
+}
+
 type Query {
-  podcasts(name: String, limit: Int, id: ID): [Podcast]
+  login(email: String!, password: String!): AuthResponse
+  signup(email: String!, password: String!): AuthResponse
+  podcasts(id: String, name: String, genre: Genre, category: Category, limit: Int): [Podcast]
 }
 
 schema {
