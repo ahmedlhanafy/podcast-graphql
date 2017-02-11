@@ -1,9 +1,8 @@
-import { sign, verify} from'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import config from '../../config';
 
-export const generateJwtToken = user =>  {
-   const token = sign(user, config.jwtSecret);
-   return token;
-};
+export const generateToken = (user: any): string =>
+    sign(user, config.jwtSecret);
 
-export const verifyToken = token => verify(token, config.jwtSecret);
+export const verifyToken = (token: string): any =>
+    verify(token, config.jwtSecret);

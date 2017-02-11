@@ -1,4 +1,4 @@
-export default class UrlBuilder {
+export default class ItunesUrlBuilder {
     private hostUri: string;
     private lookupResource: string;
     private lookupId: string;
@@ -16,28 +16,51 @@ export default class UrlBuilder {
         return this;
     }
 
-    public lookup(id: string) {
+    public lookup(id: string): ItunesUrlBuilder {
         this.lookupId = id;
         return this;
     }
 
-    public search(term: string) {
+    public search(term: string): ItunesUrlBuilder {
         this.searchTerm = term;
         return this;
     }
 
-    // https://affiliate.itunes.apple.com/resources/documentation/genre-mapping/
-    public byGenreId(id: number) {
+    public byGenreId(id: number): ItunesUrlBuilder {
         this.searchGenreId = id;
         return this;
     }
 
-    public withLimit(limit: number) {
+    // https://affiliate.itunes.apple.com/resources/documentation/genre-mapping/
+    public byGenre(genre: string): ItunesUrlBuilder {
+        switch (genre) {
+            case 'ARTS': this.byGenreId(1301); break;
+            case 'COMEDY': this.byGenreId(1303); break;
+            case 'EDUCATION': this.byGenreId(1304); break;
+            case 'FAMILY': this.byGenreId(1305); break;
+            case 'HEALTH': this.byGenreId(1307); break;
+            case 'TV': this.byGenreId(1309); break;
+            case 'MUSIC': this.byGenreId(1310); break;
+            case 'NEWS': this.byGenreId(1311); break;
+            case 'RELIGION': this.byGenreId(1314); break;
+            case 'SCIENCE': this.byGenreId(1315); break;
+            case 'SPORTS': this.byGenreId(1316); break;
+            case 'TECHNOLOGY': this.byGenreId(1318); break;
+            case 'BUSINESS': this.byGenreId(1321); break;
+            case 'GAMES': this.byGenreId(1323); break;
+            case 'SOCIETY': this.byGenreId(1324); break;
+            case 'GOVERNMENT': this.byGenreId(1325); break;
+            default: break;
+        }
+        return this;
+    }
+
+    public withLimit(limit: number): ItunesUrlBuilder {
         this.searchLimit = limit;
         return this;
     }
 
-    public toString() {
+    public toString(): string {
         let str: string = this.hostUri;
         if (this.lookupId) {
             // Lookup
