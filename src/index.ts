@@ -5,7 +5,7 @@ import * as mongoose from 'mongoose';
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
 import { makeExecutableSchema } from 'graphql-tools';
 import config from './config/settings';
-import { schema, resolvers } from './api/graphql';
+import { schema, resolvers } from './graphql';
 
 const PORT = process.env.PORT || 8080;
 
