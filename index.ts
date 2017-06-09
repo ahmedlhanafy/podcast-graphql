@@ -21,15 +21,23 @@ const executableSchema = makeExecutableSchema({
   resolvers: resolvers,
 });
 
-app.use('/graphql', bodyParser.json(), apolloExpress(req => ({
-  schema: executableSchema,
-  context: { token: req.headers['x-access-token'] },
-})));
+app.use(
+  '/graphql',
+  bodyParser.json(),
+  apolloExpress(req => ({
+    schema: executableSchema,
+    context: { token: req.headers['x-access-token'] },
+  })),
+);
 
-app.use('/graphiql', graphiqlExpress({
-  endpointURL: '/graphql',
-}));
+app.use(
+  '/graphiql',
+  graphiqlExpress({
+    endpointURL: '/graphql',
+  }),
+);
 
 // tslint:disable:no-console
 app.listen(PORT, () =>
-  console.log(`Running a GraphQL API server at localhost:${PORT}/graphql...`));
+  console.log(`Running a GraphQL API server at localhost:${PORT}/graphql...`),
+);

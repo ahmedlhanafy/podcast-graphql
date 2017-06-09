@@ -1,4 +1,4 @@
 interface User {
-    email: String
-    password: String
+  email: String;
+  password: String;
 }
