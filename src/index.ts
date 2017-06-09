@@ -4,7 +4,7 @@ import * as morgan from 'morgan';
 import * as mongoose from 'mongoose';
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
 import { makeExecutableSchema } from 'graphql-tools';
-import config from './config';
+import config from './config/settings';
 import { schema, resolvers } from './api/graphql';
 
 const PORT = process.env.PORT || 8080;
