@@ -2,7 +2,7 @@
   "name": "podcasts-graphql",
   "version": "0.1.0",
   "description": "GraphQL API for Podcasts",
-  "main": "src/index.js",
+  "main": "src/app.js",
   "scripts": {
     "precommit": "lint-staged",
     "start": "nodemon src/app.js --exec babel-node",
