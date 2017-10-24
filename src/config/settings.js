@@ -5,9 +5,10 @@ export default {
     port: 8080,
   },
   database: {
-    url: 'mongodb://127.0.0.1/itunes',
+    url: 'mongodb://localhost:27017/podcasts-graphql',
   },
   auth: {
+    // @FIXME: Conceal in .env file
     secret: 'itunessecret',
   },
 };
