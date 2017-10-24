@@ -2,6 +2,8 @@
 
 import vibrant from 'node-vibrant';
 
+import type { ColorPalette } from '../flow';
+
 const extractColors = (data: string): Promise<ColorPalette> =>
   new Promise((resolve, reject) => {
     vibrant.from(data).getPalette((err, palette) => {

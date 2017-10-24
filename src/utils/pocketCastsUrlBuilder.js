@@ -1,11 +1,19 @@
 /** @flow */
 
+import type { PodcastCategory } from '../flow';
+
+const PodcastCategoryEnum = {
+  POPULAR: 'POPULAR',
+  TRENDING: 'TRENDING',
+  FEATURED: 'FEATURED',
+};
+
 export default class PocketCastsUrlBuilder {
-   hostUri: string;
-   featuredResource: string;
-   trendingResource: string;
-   popularResource: string;
-   searchCategory: PodcastCategory;
+  hostUri: string;
+  featuredResource: string;
+  trendingResource: string;
+  popularResource: string;
+  searchCategory: PodcastCategory;
 
   constructor() {
     this.hostUri = 'https://discover.pocketcasts.com/discover/json';
@@ -15,31 +23,31 @@ export default class PocketCastsUrlBuilder {
     return this;
   }
 
-   featured(): PocketCastsUrlBuilder {
-    this.searchCategory = PodcastCategory.FEATURED;
+  featured(): PocketCastsUrlBuilder {
+    this.searchCategory = PodcastCategoryEnum.FEATURED;
     return this;
   }
 
-   trending(): PocketCastsUrlBuilder {
-    this.searchCategory = PodcastCategory.TRENDING;
+  trending(): PocketCastsUrlBuilder {
+    this.searchCategory = PodcastCategoryEnum.TRENDING;
     return this;
   }
 
-   popular(): PocketCastsUrlBuilder {
-    this.searchCategory = PodcastCategory.POPULAR;
+  popular(): PocketCastsUrlBuilder {
+    this.searchCategory = PodcastCategoryEnum.POPULAR;
     return this;
   }
 
-   toString(): string {
+  toString(): string {
     let str: string = this.hostUri;
     switch (this.searchCategory) {
-      case PodcastCategory.FEATURED:
+      case PodcastCategoryEnum.FEATURED:
         str = str.concat(this.featuredResource);
         break;
-      case PodcastCategory.TRENDING:
+      case PodcastCategoryEnum.TRENDING:
         str = str.concat(this.trendingResource);
         break;
-      case PodcastCategory.POPULAR:
+      case PodcastCategoryEnum.POPULAR:
         str = str.concat(this.popularResource);
         break;
       default:
@@ -47,10 +55,4 @@ export default class PocketCastsUrlBuilder {
     }
     return str;
   }
-}
-
-enum PodcastCategory {
-  POPULAR,
-  TRENDING,
-  FEATURED,
 }
