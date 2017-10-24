@@ -1,3 +1,5 @@
+/** @flow */
+
 const formatColor = (values: Array<any>): string => {
   if (values) {
     const enhancedColors: string = values

@@ -1,3 +1,5 @@
+/** @flow */
+
 import { User } from '../db';
 import { generateToken } from '../auth/jwtHelpers';
 import { extractColors, formatColor } from '../utils';
@@ -10,10 +12,15 @@ import {
   getPopularPodcasts,
 } from '../itunes/connectors';
 
+import type { ItunesPodcast, ParsedEpisode, ColorPalette } from '../flow';
+
 const resolveLogin = async ({
   email,
   password,
-}: { email: string; password: string }): Promise<any> => {
+}: {
+  email: string,
+  password: string,
+}): Promise<any> => {
   try {
     const user: any = await User.findOne({ email });
     if (user) {
@@ -22,19 +29,17 @@ const resolveLogin = async ({
           success: false,
           message: 'Authentication failed. Wrong password.',
         };
-      } else {
-        return {
-          success: true,
-          message: 'Authentication Succeeded',
-          token: generateToken(user),
-        };
       }
-    } else {
       return {
-        success: false,
-        message: 'Authentication failed. User not found.',
+        success: true,
+        message: 'Authentication Succeeded',
+        token: generateToken(user),
       };
     }
+    return {
+      success: false,
+      message: 'Authentication failed. User not found.',
+    };
   } catch (err) {
     return {
       success: false,
@@ -47,7 +52,10 @@ const resolveLogin = async ({
 const resolveSignup = async ({
   email,
   password,
-}: { email: string; password: string }): Promise<any> => {
+}: {
+  email: string,
+  password: string,
+}): Promise<any> => {
   const newUser: any = new User({ email, password });
   try {
     const user: any = await newUser.save();
@@ -71,11 +79,11 @@ const resolvePodcasts = async ({
   category,
   limit,
 }: {
-  id: string;
-  name: string;
-  genre: string;
-  category: string;
-  limit: number;
+  id: string,
+  name: string,
+  genre: string,
+  category: string,
+  limit: number,
 }): Promise<Array<ItunesPodcast>> => {
   let results: Array<ItunesPodcast>;
   if (id) {
@@ -109,10 +117,8 @@ const resolvePodcasts = async ({
 
 const resolveEpisodes = async (
   { feedUrl }: { feedUrl: string },
-  { first, offset }: { first: number; offset: number },
-): Promise<Array<ParsedEpisode>> => {
-  return await fetchEpisodes({ feedUrl, first, offset });
-};
+  { first, offset }: { first: number, offset: number },
+): Promise<Array<ParsedEpisode>> => fetchEpisodes({ feedUrl, first, offset });
 
 const resolveArtworkUrls = ({
   artworkUrl30,
@@ -120,34 +126,36 @@ const resolveArtworkUrls = ({
   artworkUrl100,
   artworkUrl600,
 }: {
-  artworkUrl30: string;
-  artworkUrl60: string;
-  artworkUrl100: string;
-  artworkUrl600: string;
-}): any => {
-  return {
-    xsmall: artworkUrl30,
-    small: artworkUrl60,
-    medium: artworkUrl100,
-    large: artworkUrl600,
-  };
-};
+  artworkUrl30: string,
+  artworkUrl60: string,
+  artworkUrl100: string,
+  artworkUrl600: string,
+}): any => ({
+  xsmall: artworkUrl30,
+  small: artworkUrl60,
+  medium: artworkUrl100,
+  large: artworkUrl600,
+});
 
 const resolveArtist = ({
   artistId,
   artistName,
   artistViewUrl,
-}: { artistId: string; artistName: string; artistViewUrl: string }): any => {
-  return {
-    id: artistId,
-    name: artistName,
-    viewUrl: artistViewUrl,
-  };
-};
+}: {
+  artistId: string,
+  artistName: string,
+  artistViewUrl: string,
+}): any => ({
+  id: artistId,
+  name: artistName,
+  viewUrl: artistViewUrl,
+});
 
 const resolvePalette = async ({
   artworkUrl60,
-}: { artworkUrl60: string }): Promise<any> => {
+}: {
+  artworkUrl60: string,
+}): Promise<any> => {
   const colorPalette: ColorPalette = await extractColors(artworkUrl60);
   return {
     vibrantColor: {
@@ -169,13 +177,13 @@ const resolvePalette = async ({
 
 const resolversMap = {
   Query: {
-    login(_, args: any): Promise<any> {
+    login(_: any, args: any): Promise<any> {
       return resolveLogin(args);
     },
-    signup(_, args: any): Promise<any> {
+    signup(_: any, args: any): Promise<any> {
       return resolveSignup(args);
     },
-    podcasts(_, args: any): Promise<Array<ItunesPodcast>> {
+    podcasts(_: any, args: any): Promise<Array<ItunesPodcast>> {
       return resolvePodcasts(args);
     },
   },

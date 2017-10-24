@@ -1,4 +1,4 @@
 {
-  "eslint.enable": false,
-  "prettier.trailingComma": "all"
+  "javascript.validate.enable": false,
+  "flow.useNPMPackagedFlow": true
 }

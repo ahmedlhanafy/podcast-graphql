@@ -1,4 +1,5 @@
-// tslint:disable:max-line-length
+/** @flow */
+
 const schema = `
 type Podcast {
   artist: Artist

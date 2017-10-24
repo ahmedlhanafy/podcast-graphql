@@ -1,12 +1,14 @@
+/** @flow */
+
 export default class ItunesUrlBuilder {
-  private hostUri: string;
-  private lookupResource: string;
-  private lookupId: string;
-  private searchResource: string;
-  private searchEntity: string;
-  private searchTerm: string;
-  private searchGenreId: number;
-  private searchLimit: number;
+  hostUri: string;
+  lookupResource: string;
+  lookupId: string;
+  searchResource: string;
+  searchEntity: string;
+  searchTerm: string;
+  searchGenreId: number;
+  searchLimit: number;
 
   constructor() {
     this.hostUri = 'https://itunes.apple.com/';
@@ -16,23 +18,23 @@ export default class ItunesUrlBuilder {
     return this;
   }
 
-  public lookup(id: string): ItunesUrlBuilder {
+  lookup(id: string): ItunesUrlBuilder {
     this.lookupId = id;
     return this;
   }
 
-  public search(term: string): ItunesUrlBuilder {
+  search(term: string): ItunesUrlBuilder {
     this.searchTerm = term;
     return this;
   }
 
-  public byGenreId(id: number): ItunesUrlBuilder {
+  byGenreId(id: number): ItunesUrlBuilder {
     this.searchGenreId = id;
     return this;
   }
 
   // https://affiliate.itunes.apple.com/resources/documentation/genre-mapping/
-  public byGenre(genre: string): ItunesUrlBuilder {
+  byGenre(genre: string): ItunesUrlBuilder {
     switch (genre) {
       case 'ARTS':
         this.byGenreId(1301);
@@ -88,16 +90,19 @@ export default class ItunesUrlBuilder {
     return this;
   }
 
-  public withLimit(limit: number): ItunesUrlBuilder {
+  withLimit(limit: number): ItunesUrlBuilder {
     this.searchLimit = limit;
     return this;
   }
 
-  public toString(): string {
+  toString(): string {
     let str: string = this.hostUri;
     if (this.lookupId) {
       // Lookup
-      str = str.concat(this.lookupResource).concat('id=').concat(this.lookupId);
+      str = str
+        .concat(this.lookupResource)
+        .concat('id=')
+        .concat(this.lookupId);
     } else {
       // Search
       str = str
