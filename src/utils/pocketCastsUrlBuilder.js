@@ -1,9 +1,11 @@
+/** @flow */
+
 export default class PocketCastsUrlBuilder {
-  private hostUri: string;
-  private featuredResource: string;
-  private trendingResource: string;
-  private popularResource: string;
-  private searchCategory: PodcastCategory;
+   hostUri: string;
+   featuredResource: string;
+   trendingResource: string;
+   popularResource: string;
+   searchCategory: PodcastCategory;
 
   constructor() {
     this.hostUri = 'https://discover.pocketcasts.com/discover/json';
@@ -13,22 +15,22 @@ export default class PocketCastsUrlBuilder {
     return this;
   }
 
-  public featured(): PocketCastsUrlBuilder {
+   featured(): PocketCastsUrlBuilder {
     this.searchCategory = PodcastCategory.FEATURED;
     return this;
   }
 
-  public trending(): PocketCastsUrlBuilder {
+   trending(): PocketCastsUrlBuilder {
     this.searchCategory = PodcastCategory.TRENDING;
     return this;
   }
 
-  public popular(): PocketCastsUrlBuilder {
+   popular(): PocketCastsUrlBuilder {
     this.searchCategory = PodcastCategory.POPULAR;
     return this;
   }
 
-  public toString(): string {
+   toString(): string {
     let str: string = this.hostUri;
     switch (this.searchCategory) {
       case PodcastCategory.FEATURED:

@@ -1,3 +1,5 @@
+/** @flow */
+
 interface ItunesResponse {
   resultCount: number;
   results: Array<ItunesPodcast>;

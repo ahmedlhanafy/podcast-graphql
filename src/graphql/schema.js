@@ -1,3 +1,5 @@
+/** @flow */
+
 // tslint:disable:max-line-length
 const schema = `
 type Podcast {

@@ -1,3 +1,5 @@
+/** @flow */
+
 import * as fetch from 'node-fetch';
 import parsePodcast from '../utils/parsePodcast';
 import ItunesUrlBuilder from '../utils/itunesUrlBuilder';

@@ -1,3 +1,5 @@
+/** @flow */
+
 import { User } from '../db';
 import { generateToken } from '../auth/jwtHelpers';
 import { extractColors, formatColor } from '../utils';
