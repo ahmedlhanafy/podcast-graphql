@@ -4,8 +4,8 @@ import * as morgan from 'morgan';
 import * as mongoose from 'mongoose';
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
 import { makeExecutableSchema } from 'graphql-tools';
-import config from './config';
-import { schema, resolvers } from './api/graphql';
+import config from './config/settings';
+import { schema, resolvers } from './graphql';
 
 const PORT = process.env.PORT || 8080;
 
@@ -21,15 +21,23 @@ const executableSchema = makeExecutableSchema({
   resolvers: resolvers,
 });
 
-app.use('/graphql', bodyParser.json(), apolloExpress(req => ({
-  schema: executableSchema,
-  context: { token: req.headers['x-access-token'] },
-})));
+app.use(
+  '/graphql',
+  bodyParser.json(),
+  apolloExpress(req => ({
+    schema: executableSchema,
+    context: { token: req.headers['x-access-token'] },
+  })),
+);
 
-app.use('/graphiql', graphiqlExpress({
-  endpointURL: '/graphql',
-}));
+app.use(
+  '/graphiql',
+  graphiqlExpress({
+    endpointURL: '/graphql',
+  }),
+);
 
 // tslint:disable:no-console
 app.listen(PORT, () =>
-  console.log(`Running a GraphQL API server at localhost:${PORT}/graphql...`));
+  console.log(`Running a GraphQL API server at localhost:${PORT}/graphql...`),
+);

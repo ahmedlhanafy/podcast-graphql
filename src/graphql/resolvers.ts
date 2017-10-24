@@ -10,8 +10,10 @@ import {
   getPopularPodcasts,
 } from '../itunes/connectors';
 
-const resolveLogin = async ({ email, password }:
-  { email: string, password: string }): Promise<any> => {
+const resolveLogin = async ({
+  email,
+  password,
+}: { email: string; password: string }): Promise<any> => {
   try {
     const user: any = await User.findOne({ email });
     if (user) {
@@ -42,8 +44,10 @@ const resolveLogin = async ({ email, password }:
   }
 };
 
-const resolveSignup = async ({ email, password }:
-  { email: string, password: string }): Promise<any> => {
+const resolveSignup = async ({
+  email,
+  password,
+}: { email: string; password: string }): Promise<any> => {
   const newUser: any = new User({ email, password });
   try {
     const user: any = await newUser.save();
@@ -60,19 +64,36 @@ const resolveSignup = async ({ email, password }:
   }
 };
 
-const resolvePodcasts = async ({ id, name, genre, category, limit }:
-  { id: string, name: string, genre: string, category: string, limit: number }):
-  Promise<Array<ItunesPodcast>> => {
+const resolvePodcasts = async ({
+  id,
+  name,
+  genre,
+  category,
+  limit,
+}: {
+  id: string;
+  name: string;
+  genre: string;
+  category: string;
+  limit: number;
+}): Promise<Array<ItunesPodcast>> => {
   let results: Array<ItunesPodcast>;
   if (id) {
     results = await findOnePodcast({ id });
   } else {
     if (category) {
       switch (category) {
-        case 'FEATURED': results = await getFeaturedPodcasts({ limit }); break;
-        case 'TRENDING': results = await getTrendingPodcasts({ limit }); break;
-        case 'POPULAR': results = await getPopularPodcasts({ limit }); break;
-        default: break;
+        case 'FEATURED':
+          results = await getFeaturedPodcasts({ limit });
+          break;
+        case 'TRENDING':
+          results = await getTrendingPodcasts({ limit });
+          break;
+        case 'POPULAR':
+          results = await getPopularPodcasts({ limit });
+          break;
+        default:
+          break;
       }
     } else {
       results = await findAllPodcasts({ name, genre, limit });
@@ -86,25 +107,24 @@ const resolvePodcasts = async ({ id, name, genre, category, limit }:
   }));
 };
 
-const resolveEpisodes = async ({ feedUrl }: { feedUrl: string },
-  { first, offset }: { first: number, offset: number }):
-  Promise<Array<ParsedEpisode>> => {
+const resolveEpisodes = async (
+  { feedUrl }: { feedUrl: string },
+  { first, offset }: { first: number; offset: number },
+): Promise<Array<ParsedEpisode>> => {
   return await fetchEpisodes({ feedUrl, first, offset });
 };
 
-const resolveArtworkUrls = (
-  {
-    artworkUrl30,
-    artworkUrl60,
-    artworkUrl100,
-    artworkUrl600,
-  }: {
-      artworkUrl30: string,
-      artworkUrl60: string,
-      artworkUrl100: string,
-      artworkUrl600: string,
-    },
-): any => {
+const resolveArtworkUrls = ({
+  artworkUrl30,
+  artworkUrl60,
+  artworkUrl100,
+  artworkUrl600,
+}: {
+  artworkUrl30: string;
+  artworkUrl60: string;
+  artworkUrl100: string;
+  artworkUrl600: string;
+}): any => {
   return {
     xsmall: artworkUrl30,
     small: artworkUrl60,
@@ -113,8 +133,11 @@ const resolveArtworkUrls = (
   };
 };
 
-const resolveArtist = ({ artistId, artistName, artistViewUrl }:
-  { artistId: string, artistName: string, artistViewUrl: string }): any => {
+const resolveArtist = ({
+  artistId,
+  artistName,
+  artistViewUrl,
+}: { artistId: string; artistName: string; artistViewUrl: string }): any => {
   return {
     id: artistId,
     name: artistName,
@@ -122,21 +145,24 @@ const resolveArtist = ({ artistId, artistName, artistViewUrl }:
   };
 };
 
-const resolvePalette = async ({ artworkUrl60 }: { artworkUrl60: string }):
-  Promise<any> => {
+const resolvePalette = async ({
+  artworkUrl60,
+}: { artworkUrl60: string }): Promise<any> => {
   const colorPalette: ColorPalette = await extractColors(artworkUrl60);
   return {
     vibrantColor: {
-      rgbColor: colorPalette.Vibrant ?
-        formatColor(colorPalette.Vibrant.rgb) : 'rgb(75, 75, 75)',
-      population: colorPalette.Vibrant ?
-        colorPalette.Vibrant.population : 0,
+      rgbColor: colorPalette.Vibrant
+        ? formatColor(colorPalette.Vibrant.rgb)
+        : 'rgb(75, 75, 75)',
+      population: colorPalette.Vibrant ? colorPalette.Vibrant.population : 0,
     },
     darkVibrantColor: {
-      rgbColor: colorPalette.DarkVibrant ?
-        formatColor(colorPalette.DarkVibrant.rgb) : 'rgb(220, 156, 156)',
-      population: colorPalette.DarkVibrant ?
-        colorPalette.DarkVibrant.population : 0,
+      rgbColor: colorPalette.DarkVibrant
+        ? formatColor(colorPalette.DarkVibrant.rgb)
+        : 'rgb(220, 156, 156)',
+      population: colorPalette.DarkVibrant
+        ? colorPalette.DarkVibrant.population
+        : 0,
     },
   };
 };
