@@ -1,10 +1,10 @@
 /** @flow */
 
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
 
-export default model(
+export default mongoose.model(
   'User',
-  new Schema({
+  mongoose.Schema({
     email: String,
     password: String,
   }),
