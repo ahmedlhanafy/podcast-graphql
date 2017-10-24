@@ -38,6 +38,7 @@ app.use(
   }),
 );
 
-app.server.listen(process.env.PORT || config.server.port);
-// eslint-disable-next-line no-console
-console.log(`✨  Server running on port ${app.server.address().port}...`);
+app.server.listen(process.env.PORT || config.server.port, () =>
+  // eslint-disable-next-line no-console
+  console.log(`✨  Server running on port ${app.server.address().port}...`),
+);
