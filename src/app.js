@@ -5,7 +5,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import { makeExecutableSchema } from 'graphql-tools';
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 import { schema, resolvers } from './graphql';
 import config from './config/settings';
 
@@ -15,7 +15,7 @@ app.server = http.createServer(app);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect(config.database);
+// mongoose.connect(config.database.url);
 
 const executableSchema = makeExecutableSchema({
   typeDefs: [schema],
