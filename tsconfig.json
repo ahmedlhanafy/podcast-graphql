@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2015",
+    "target": "es6",
     "noImplicitAny": false,
     "sourceMap": true,
     "moduleResolution": "node"
-  }
+  },
+  "exclude": ["node_modules"],
+  "files": ["src/index.ts"]
 }

@@ -4,6 +4,7 @@ import * as morgan from 'morgan';
 import * as mongoose from 'mongoose';
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
 import { makeExecutableSchema } from 'graphql-tools';
+import expressPlayground from 'graphql-playground-middleware-express';
 import config from './config/settings';
 import { schema, resolvers } from './graphql';
 
@@ -37,7 +38,11 @@ app.use(
   }),
 );
 
+app.get('/playground', expressPlayground({ endpoint: '/graphql' }));
+
 // tslint:disable:no-console
 app.listen(PORT, () =>
-  console.log(`Running a GraphQL API server at localhost:${PORT}/graphql...`),
+  console.log(
+    `Running a GraphQL API server at https://localhost:${PORT}/graphql`,
+  ),
 );

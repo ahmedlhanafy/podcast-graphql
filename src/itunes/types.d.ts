@@ -1,9 +1,9 @@
-interface ItunesResponse {
+export interface ItunesResponse {
   resultCount: number;
   results: Array<ItunesPodcast>;
 }
 
-interface ItunesPodcast {
+export interface ItunesPodcast {
   wrapperType: string;
   kind: string;
   collectionId: number;
@@ -38,7 +38,7 @@ interface ItunesPodcast {
   genres: Array<string>;
 }
 
-interface ParsedPodcast {
+export interface ParsedPodcast {
   title: string;
   description: {
     short: string;
@@ -57,7 +57,7 @@ interface ParsedPodcast {
   episodes: Array<ParsedEpisode>;
 }
 
-interface ParsedEpisode {
+export interface ParsedEpisode {
   guid: string;
   title: string;
   description: string;
@@ -72,13 +72,13 @@ interface ParsedEpisode {
   };
 }
 
-interface ColorPalette {
+export interface ColorPalette {
   Vibrant: ColorObject;
   DarkVibrant: ColorObject;
   Muted: ColorObject;
 }
 
-interface ColorObject {
+export interface ColorObject {
   rgb: Array<number>;
   population: number;
 }

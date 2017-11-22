@@ -9,6 +9,11 @@ import {
   getTrendingPodcasts,
   getPopularPodcasts,
 } from '../itunes/connectors';
+import {
+  ItunesPodcast,
+  ParsedEpisode,
+  ColorPalette,
+} from '../itunes/types';
 
 const resolveLogin = async ({
   email,

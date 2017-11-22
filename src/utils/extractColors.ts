@@ -1,4 +1,5 @@
 import * as vibrant from 'node-vibrant';
+import { ColorPalette } from '../itunes/types';
 
 const extractColors = (data: string): Promise<ColorPalette> =>
   new Promise<ColorPalette>((resolve, reject) => {
