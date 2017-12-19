@@ -43,6 +43,6 @@ app.get('/playground', expressPlayground({ endpoint: '/graphql' }));
 // tslint:disable:no-console
 app.listen(PORT, () =>
   console.log(
-    `Running a GraphQL API server at https://localhost:${PORT}/graphql`,
+    `Running a GraphQL API server at http://localhost:${PORT}/graphql`,
   ),
 );
