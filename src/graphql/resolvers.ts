@@ -1,3 +1,4 @@
+import { Palette } from 'node-vibrant/lib/color';
 import { User } from '../db';
 import { generateToken } from '../auth/jwtHelpers';
 import { extractColors, formatColor } from '../utils';
@@ -9,7 +10,7 @@ import {
   getTrendingPodcasts,
   getPopularPodcasts,
 } from '../itunes/connectors';
-import { ItunesPodcast, ParsedEpisode, ColorPalette } from '../itunes/types';
+import { ItunesPodcast, ParsedEpisode } from '../itunes/types';
 
 const resolveLogin = async ({
   email,
@@ -161,20 +162,22 @@ const resolvePalette = async ({
 }: {
   artworkUrl60: string;
 }): Promise<any> => {
-  const colorPalette: ColorPalette = await extractColors(artworkUrl60);
+  const colorPalette: Palette = await extractColors(artworkUrl60);
   return {
     vibrantColor: {
       rgbColor: colorPalette.Vibrant
-        ? formatColor(colorPalette.Vibrant.rgb)
+        ? formatColor(colorPalette.Vibrant.getRgb())
         : 'rgb(75, 75, 75)',
-      population: colorPalette.Vibrant ? colorPalette.Vibrant.population : 0,
+      population: colorPalette.Vibrant
+        ? colorPalette.Vibrant.getPopulation()
+        : 0,
     },
     darkVibrantColor: {
       rgbColor: colorPalette.DarkVibrant
-        ? formatColor(colorPalette.DarkVibrant.rgb)
+        ? formatColor(colorPalette.DarkVibrant.getRgb())
         : 'rgb(220, 156, 156)',
       population: colorPalette.DarkVibrant
-        ? colorPalette.DarkVibrant.population
+        ? colorPalette.DarkVibrant.getPopulation()
         : 0,
     },
   };
