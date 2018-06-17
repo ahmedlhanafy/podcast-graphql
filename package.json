@@ -8,7 +8,8 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "dev": "nodemon --exec ts-node -- src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "precommit": "lint-staged"
   },
   "dependencies": {
     "apollo-server": "^0.3.3",
@@ -30,9 +31,18 @@
     "@types/mongoose": "^4.7.27",
     "@types/morgan": "^1.7.35",
     "@types/node": "^6.0.92",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.2.0",
     "nodemon": "^1.11.0",
+    "prettier": "^1.13.5",
     "ts-node": "^3.3.0",
     "tslint": "^4.3.1",
     "typescript": "^2.6.1"
+  },
+  "lint-staged": {
+    "*.{ts,js,json}": [
+      "prettier --single-quote --trailing-comma all --write",
+      "git add"
+    ]
   }
 }
