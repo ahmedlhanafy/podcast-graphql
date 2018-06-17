@@ -1,31 +1,14 @@
 {
   "name": "podcasts-graphql",
-  "version": "1.0.0",
-  "description": "Podcasts aggregator accessible via GraphQL",
+  "version": "0.1.0",
+  "description": "GraphQL API for Podcasts",
+  "author": "Ahmed Elhanafy <ahmed.elhanafy95@gmail.com>",
+  "license": "MIT",
   "main": "src/index.ts",
   "scripts": {
     "start": "npm run build:live",
     "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "podcasts",
-    "itunes",
-    "graphql",
-    "apollo"
-  ],
-  "author": "Ahmed Elhanafy <ahmed.elhanafy95@gmail.com>",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/body-parser": "^1.16.8",
-    "@types/express": "^4.0.39",
-    "@types/mongoose": "^4.7.27",
-    "@types/morgan": "^1.7.35",
-    "@types/node": "^6.0.92",
-    "nodemon": "^1.11.0",
-    "ts-node": "^3.3.0",
-    "tslint": "^4.3.1",
-    "typescript": "^2.6.1"
   },
   "dependencies": {
     "apollo-server": "^0.3.3",
@@ -40,5 +23,16 @@
     "node-fetch": "^1.6.3",
     "node-podcast-parser": "^1.0.2",
     "node-vibrant": "^2.1.2"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.16.8",
+    "@types/express": "^4.0.39",
+    "@types/mongoose": "^4.7.27",
+    "@types/morgan": "^1.7.35",
+    "@types/node": "^6.0.92",
+    "nodemon": "^1.11.0",
+    "ts-node": "^3.3.0",
+    "tslint": "^4.3.1",
+    "typescript": "^2.6.1"
   }
 }
