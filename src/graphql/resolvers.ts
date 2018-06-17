@@ -9,16 +9,15 @@ import {
   getTrendingPodcasts,
   getPopularPodcasts,
 } from '../itunes/connectors';
-import {
-  ItunesPodcast,
-  ParsedEpisode,
-  ColorPalette,
-} from '../itunes/types';
+import { ItunesPodcast, ParsedEpisode, ColorPalette } from '../itunes/types';
 
 const resolveLogin = async ({
   email,
   password,
-}: { email: string; password: string }): Promise<any> => {
+}: {
+  email: string;
+  password: string;
+}): Promise<any> => {
   try {
     const user: any = await User.findOne({ email });
     if (user) {
@@ -52,7 +51,10 @@ const resolveLogin = async ({
 const resolveSignup = async ({
   email,
   password,
-}: { email: string; password: string }): Promise<any> => {
+}: {
+  email: string;
+  password: string;
+}): Promise<any> => {
   const newUser: any = new User({ email, password });
   try {
     const user: any = await newUser.save();
@@ -142,7 +144,11 @@ const resolveArtist = ({
   artistId,
   artistName,
   artistViewUrl,
-}: { artistId: string; artistName: string; artistViewUrl: string }): any => {
+}: {
+  artistId: string;
+  artistName: string;
+  artistViewUrl: string;
+}): any => {
   return {
     id: artistId,
     name: artistName,
@@ -152,7 +158,9 @@ const resolveArtist = ({
 
 const resolvePalette = async ({
   artworkUrl60,
-}: { artworkUrl60: string }): Promise<any> => {
+}: {
+  artworkUrl60: string;
+}): Promise<any> => {
   const colorPalette: ColorPalette = await extractColors(artworkUrl60);
   return {
     vibrantColor: {
