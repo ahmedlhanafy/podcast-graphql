@@ -1,5 +1,6 @@
 {
   "eslint.enable": false,
   "prettier.trailingComma": "all",
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "tslint.exclude": ["**/dist/**", "**/node_modules/**"]
 }
