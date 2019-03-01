@@ -97,7 +97,10 @@ export default class ItunesUrlBuilder {
     let str: string = this.hostUri;
     if (this.lookupId) {
       // Lookup
-      str = str.concat(this.lookupResource).concat('id=').concat(this.lookupId);
+      str = str
+        .concat(this.lookupResource)
+        .concat('id=')
+        .concat(this.lookupId);
     } else {
       // Search
       str = str

@@ -71,14 +71,3 @@ export interface ParsedEpisode {
     url: string;
   };
 }
-
-export interface ColorPalette {
-  Vibrant: ColorObject;
-  DarkVibrant: ColorObject;
-  Muted: ColorObject;
-}
-
-export interface ColorObject {
-  rgb: Array<number>;
-  population: number;
-}
